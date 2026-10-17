@@ -1,0 +1,48 @@
+title = "go-solana-tracker secret scanning"
+
+[extend]
+useDefault = true
+
+# gitleaks' `dir` mode walks the working tree and does NOT honour .gitignore, so
+# every gitignored local path is named again here. Nothing gitignored is tracked
+# by git. The committed Go vendor/ tree is intentionally NOT listed: it ships to
+# consumers, so it gets scanned. Verify with `git check-ignore <path>` before
+# adding a line; an entry for a committed source path silences real leaks.
+[[allowlists]]
+description = "Gitignored local scratch, downloaded specs, caches, and scan artifacts"
+paths = [
+  '''(^|/)\.env$''',
+  '''(^|/)\.vscode(?:/|$)''',
+  '''(^|/)\.telemetry(?:/|$)''',
+  '''(^|/)\.research_files(?:/|$)''',
+  '''(^|/)\.testing(?:/|$)''',
+  '''(^|/)api/openapi(?:\.fixed)?\.json$''',
+  '''(^|/)api/asyncapi(?:\.client)?\.json$''',
+  '''(^|/)__pycache__(?:/|$)''',
+  '''(^|/)sec\.sarif$''',
+  '''(^|/)git-update\.sh(?:\.debot)?$''',
+  '''(^|/)CLAUDE\.md$''',
+]
+
+# These public token mint and account addresses appear in the provider's
+# AsyncAPI examples and defaults, copied into generated comments. This allows
+# only their exact values in this generated file for the generic key rule.
+[[allowlists]]
+description = "Public blockchain addresses from Solana Tracker AsyncAPI examples"
+condition = "AND"
+targetRules = ["generic-api-key"]
+paths = ['''(^|/)ws/solanatrackerws\.gen\.go$''']
+regexTarget = "secret"
+regexes = [
+  '''^AmJaZvdNptvofC4qe3tvuBNgqLm65p1of5pk6JFHpump$''',
+  '''^HCuFjMcDaSNAyT6mXegLXvrYdBZdT4Xh1YajS8vrpump$''',
+  '''^9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump$''',
+  '''^Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB$''',
+  '''^FS53KrzKqNTp3CS7YDSJ61rgyN1cMyUhAbJrn4tbonk$''',
+  '''^4557sE3VydBr9wViX3L8kNU2Hs3b4S32pKNyeh2Qpump$''',
+  '''^EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v$''',
+  '''^6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN$''',
+  '''^82jLLG1C8rbmr1ek4CKAg3TuQh977epmBLcJr8mB6NDo$''',
+  '''^2FbbdMWfrfGpyyK4Wh76vyxbmDGcp3LxZNhwBwFpV5UK$''',
+  '''^125PQmudTAXHUUGxtSra1xTzGu3NRCMbRU7i9cikEpwd$''',
+]

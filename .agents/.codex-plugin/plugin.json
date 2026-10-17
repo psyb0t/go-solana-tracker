@@ -1,0 +1,11 @@
+{
+  "name": "go-solana-tracker",
+  "version": "0.1.0",
+  "description": "Unofficial Go client for the Solana Tracker Data API and Datastream: token, price, pool, wallet, trade and chart data, generated from the public OpenAPI and AsyncAPI specs.",
+  "author": { "name": "psyb0t", "url": "https://github.com/psyb0t" },
+  "homepage": "https://github.com/psyb0t/go-solana-tracker",
+  "repository": "https://github.com/psyb0t/go-solana-tracker",
+  "license": "MIT",
+  "keywords": ["solana", "solanatracker", "api-client", "go-library", "openapi", "asyncapi", "websocket"],
+  "skills": "./skills/"
+}
