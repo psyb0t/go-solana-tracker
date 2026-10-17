@@ -61,7 +61,7 @@ Selected methods, verified against `client.gen.go`:
 | `GetCreditsWithResponse` | `GET /credits` |
 | `GetSubscriptionWithResponse` | `GET /subscription` |
 
-The complete client has all 52 operations over 51 paths. Inspect `client.gen.go` for holders, risk charts, pool-specific variants, timeframes, deployer data, first buyers and other operations.
+The client has a method for every operation in the spec. Look up the rest with `go doc` as the skill describes, including holders, risk charts, pool-specific variants, timeframes, deployer data, first buyers and other operations.
 
 ## Responses
 
@@ -84,7 +84,7 @@ Supply an implementation of `github.com/psyb0t/gen-asyncapi/asyncapirt.Transport
 
 Room methods use names such as `SubscribeToPriceToken`, `UnsubscribeFromPriceToken`, `SubscribeToTokenTx`, `SubscribeToWallet`, `SubscribeToHolders` and `SubscribeToJupiterDcaAllEvents`. Each takes a generated payload with a `Room` field. Inspect its room pattern or enum before constructing it. The payload marshaler supplies fixed protocol fields such as the command type.
 
-The client covers all 43 Datastream channels. It does not include the separate solana-rpc or raptor APIs. The source defines the server perspective; normalization swaps operation directions, hoists messages, constrains room matching and includes joined acknowledgements. Identical price-all and price-pool event schemas share the price-pool message and handler types.
+The client covers every channel in the Datastream spec. It does not include the separate solana-rpc or raptor APIs. The source defines the server perspective; normalization swaps operation directions, hoists messages, constrains room matching and includes joined acknowledgements. Identical price-all and price-pool event schemas share the price-pool message and handler types.
 
 `BalanceUpdate.Amount` uses `float64`. The source declares an integer, but its published balance examples contain fractions. The normalization accepts both forms.
 

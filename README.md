@@ -66,6 +66,8 @@ func main() {
 
 The same code is in `example_test.go`, so `make test` checks that it compiles. Replace `TOKEN_ADDRESS` with the token mint address. HTTP error statuses do not become Go errors automatically.
 
+The full API, with the spec's descriptions as doc comments, is in the [Go reference](https://pkg.go.dev/github.com/psyb0t/go-solana-tracker) and in `go doc github.com/psyb0t/go-solana-tracker` (or `.../ws` for Datastream) from inside your module.
+
 The REST client covers token search, prices and history, holders, charts, trades, wallet balances and activity, profit and loss, market statistics, credits and subscription details. Generated names follow HTTP methods and paths because the spec has no operation IDs.
 
 ## Auth

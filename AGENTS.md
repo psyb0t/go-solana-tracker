@@ -49,7 +49,7 @@ make sec       # gitleaks, govulncheck, semgrep
 - `BalanceUpdate.amount` is declared integer but has fractional values in the provider's examples. The AsyncAPI patch makes it `number`, generated as `float64`, so integer and fractional values both decode.
 - DCA union variants have no required fields in the source. The patch requires event names on named events and the position snapshot's `pubkey` and `writeVersion`, matching the provider's examples, so decoding selects one variant.
 - Generate all 43 Datastream channels. Do not add the unrelated solana-rpc or raptor specs.
-- `make generate` downloads current specs. Inspect generated changes even when no local generator source changed. Remote synchronization does not delete local stale outputs; remove them explicitly after checking their contents.
+- `make generate` downloads current specs. Inspect generated changes even when no local generator source changed.
 - `.github/workflows/regen.yml` regenerates the client every day and releases the result. When the checks fail, Claude edits the repository to fix them, but a fix may not touch the paths listed under `fix_protected_paths` in that workflow: the workflows, the Makefile, `AGENTS.md`, `.agents/rules/`, the lint, security and spec download scripts and their configs. A problem that needs a change there fails the run and needs a manual fix.
 
 ## Rules
