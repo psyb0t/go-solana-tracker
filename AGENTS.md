@@ -11,7 +11,7 @@ Two generated packages, driven by their own `gen.go` files and discovered by `go
 
 ## Stack
 
-- Go 1.26.9.
+- Go 1.26.10.
 - oapi-codegen and gen-asyncapi, pinned as `tool` dependencies in `go.mod`.
 - REST runtime: `github.com/oapi-codegen/runtime`.
 - WebSocket runtime: `github.com/psyb0t/gen-asyncapi/asyncapirt`.
