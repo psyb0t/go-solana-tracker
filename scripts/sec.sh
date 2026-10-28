@@ -124,7 +124,9 @@ if [[ "$sg_rc" -eq 1 ]] && jq -e \
 fi
 
 log INFO "merging SARIF"
-jq -s '{version:"2.1.0","$schema":"https://json.schemastore.org/sarif-2.1.0.json",runs:([.[].runs // []] | add)}' \
+# Code scanning rejects a file holding two runs from the same tool, so the
+# gitleaks directory and history runs are folded into one run per tool.
+jq -s '{version:"2.1.0","$schema":"https://json.schemastore.org/sarif-2.1.0.json",runs:([.[].runs // []] | add | group_by(.tool.driver.name) | map(.[0] + {results: (map(.results // []) | add)}))}' \
 	"$tmp/gitleaks-dir.sarif" \
 	"$tmp/gitleaks-git.sarif" \
 	"$tmp/govulncheck.sarif" \
