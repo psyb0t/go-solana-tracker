@@ -16,6 +16,75 @@ import (
 	"github.com/oapi-codegen/runtime"
 )
 
+// Defines values for AccountTransferDirection.
+const (
+	AccountTransferDirectionIn  AccountTransferDirection = "in"
+	AccountTransferDirectionOut AccountTransferDirection = "out"
+)
+
+// Valid indicates whether the value is a known member of the AccountTransferDirection enum.
+func (e AccountTransferDirection) Valid() bool {
+	switch e {
+	case AccountTransferDirectionIn:
+		return true
+	case AccountTransferDirectionOut:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AccountTransferStatus.
+const (
+	AccountTransferStatusFailed  AccountTransferStatus = "failed"
+	AccountTransferStatusSuccess AccountTransferStatus = "success"
+)
+
+// Valid indicates whether the value is a known member of the AccountTransferStatus enum.
+func (e AccountTransferStatus) Valid() bool {
+	switch e {
+	case AccountTransferStatusFailed:
+		return true
+	case AccountTransferStatusSuccess:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AccountTransferType.
+const (
+	AccountTransferTypeSol AccountTransferType = "sol"
+	AccountTransferTypeSpl AccountTransferType = "spl"
+)
+
+// Valid indicates whether the value is a known member of the AccountTransferType enum.
+func (e AccountTransferType) Valid() bool {
+	switch e {
+	case AccountTransferTypeSol:
+		return true
+	case AccountTransferTypeSpl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AccountTransfersResponseEnrichmentStatus.
+const (
+	AccountTransfersResponseEnrichmentStatusPartial AccountTransfersResponseEnrichmentStatus = "partial"
+)
+
+// Valid indicates whether the value is a known member of the AccountTransfersResponseEnrichmentStatus enum.
+func (e AccountTransfersResponseEnrichmentStatus) Valid() bool {
+	switch e {
+	case AccountTransfersResponseEnrichmentStatusPartial:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for LiquidityEventAmountBasis.
 const (
 	LiquidityEventAmountBasisPrincipal LiquidityEventAmountBasis = "principal"
@@ -70,6 +139,27 @@ func (e TokenTradeType) Valid() bool {
 	}
 }
 
+// Defines values for TokenTradesResponseCurrency.
+const (
+	TokenTradesResponseCurrencyEur TokenTradesResponseCurrency = "eur"
+	TokenTradesResponseCurrencySol TokenTradesResponseCurrency = "sol"
+	TokenTradesResponseCurrencyUsd TokenTradesResponseCurrency = "usd"
+)
+
+// Valid indicates whether the value is a known member of the TokenTradesResponseCurrency enum.
+func (e TokenTradesResponseCurrency) Valid() bool {
+	switch e {
+	case TokenTradesResponseCurrencyEur:
+		return true
+	case TokenTradesResponseCurrencySol:
+		return true
+	case TokenTradesResponseCurrencyUsd:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for TokenTradesResponseSortDirection.
 const (
 	TokenTradesResponseSortDirectionASC  TokenTradesResponseSortDirection = "ASC"
@@ -82,6 +172,183 @@ func (e TokenTradesResponseSortDirection) Valid() bool {
 	case TokenTradesResponseSortDirectionASC:
 		return true
 	case TokenTradesResponseSortDirectionDESC:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TransferTokenTotalDirection.
+const (
+	TransferTokenTotalDirectionIn  TransferTokenTotalDirection = "in"
+	TransferTokenTotalDirectionOut TransferTokenTotalDirection = "out"
+)
+
+// Valid indicates whether the value is a known member of the TransferTokenTotalDirection enum.
+func (e TransferTokenTotalDirection) Valid() bool {
+	switch e {
+	case TransferTokenTotalDirectionIn:
+		return true
+	case TransferTokenTotalDirectionOut:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TransferTransactionDirection.
+const (
+	TransferTransactionDirectionBoth TransferTransactionDirection = "both"
+	TransferTransactionDirectionIn   TransferTransactionDirection = "in"
+	TransferTransactionDirectionOut  TransferTransactionDirection = "out"
+	TransferTransactionDirectionSwap TransferTransactionDirection = "swap"
+)
+
+// Valid indicates whether the value is a known member of the TransferTransactionDirection enum.
+func (e TransferTransactionDirection) Valid() bool {
+	switch e {
+	case TransferTransactionDirectionBoth:
+		return true
+	case TransferTransactionDirectionIn:
+		return true
+	case TransferTransactionDirectionOut:
+		return true
+	case TransferTransactionDirectionSwap:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TransferTransactionStatus.
+const (
+	TransferTransactionStatusFailed  TransferTransactionStatus = "failed"
+	TransferTransactionStatusSuccess TransferTransactionStatus = "success"
+)
+
+// Valid indicates whether the value is a known member of the TransferTransactionStatus enum.
+func (e TransferTransactionStatus) Valid() bool {
+	switch e {
+	case TransferTransactionStatusFailed:
+		return true
+	case TransferTransactionStatusSuccess:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TransferTransactionType.
+const (
+	TransferTransactionTypeSwap     TransferTransactionType = "swap"
+	TransferTransactionTypeTransfer TransferTransactionType = "transfer"
+)
+
+// Valid indicates whether the value is a known member of the TransferTransactionType enum.
+func (e TransferTransactionType) Valid() bool {
+	switch e {
+	case TransferTransactionTypeSwap:
+		return true
+	case TransferTransactionTypeTransfer:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetAccountAddressTransfersParamsSortOrder.
+const (
+	GetAccountAddressTransfersParamsSortOrderAsc  GetAccountAddressTransfersParamsSortOrder = "asc"
+	GetAccountAddressTransfersParamsSortOrderDesc GetAccountAddressTransfersParamsSortOrder = "desc"
+)
+
+// Valid indicates whether the value is a known member of the GetAccountAddressTransfersParamsSortOrder enum.
+func (e GetAccountAddressTransfersParamsSortOrder) Valid() bool {
+	switch e {
+	case GetAccountAddressTransfersParamsSortOrderAsc:
+		return true
+	case GetAccountAddressTransfersParamsSortOrderDesc:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetAccountAddressTransfersParamsDirection.
+const (
+	GetAccountAddressTransfersParamsDirectionAll GetAccountAddressTransfersParamsDirection = "all"
+	GetAccountAddressTransfersParamsDirectionIn  GetAccountAddressTransfersParamsDirection = "in"
+	GetAccountAddressTransfersParamsDirectionOut GetAccountAddressTransfersParamsDirection = "out"
+)
+
+// Valid indicates whether the value is a known member of the GetAccountAddressTransfersParamsDirection enum.
+func (e GetAccountAddressTransfersParamsDirection) Valid() bool {
+	switch e {
+	case GetAccountAddressTransfersParamsDirectionAll:
+		return true
+	case GetAccountAddressTransfersParamsDirectionIn:
+		return true
+	case GetAccountAddressTransfersParamsDirectionOut:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetAccountAddressTransfersParamsType.
+const (
+	GetAccountAddressTransfersParamsTypeSol GetAccountAddressTransfersParamsType = "sol"
+	GetAccountAddressTransfersParamsTypeSpl GetAccountAddressTransfersParamsType = "spl"
+)
+
+// Valid indicates whether the value is a known member of the GetAccountAddressTransfersParamsType enum.
+func (e GetAccountAddressTransfersParamsType) Valid() bool {
+	switch e {
+	case GetAccountAddressTransfersParamsTypeSol:
+		return true
+	case GetAccountAddressTransfersParamsTypeSpl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetAccountAddressTransfersParamsStatus.
+const (
+	GetAccountAddressTransfersParamsStatusAny     GetAccountAddressTransfersParamsStatus = "any"
+	GetAccountAddressTransfersParamsStatusFailed  GetAccountAddressTransfersParamsStatus = "failed"
+	GetAccountAddressTransfersParamsStatusSuccess GetAccountAddressTransfersParamsStatus = "success"
+)
+
+// Valid indicates whether the value is a known member of the GetAccountAddressTransfersParamsStatus enum.
+func (e GetAccountAddressTransfersParamsStatus) Valid() bool {
+	switch e {
+	case GetAccountAddressTransfersParamsStatusAny:
+		return true
+	case GetAccountAddressTransfersParamsStatusFailed:
+		return true
+	case GetAccountAddressTransfersParamsStatusSuccess:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetAccountAddressTransfersParamsDex.
+const (
+	GetAccountAddressTransfersParamsDexExclude GetAccountAddressTransfersParamsDex = "exclude"
+	GetAccountAddressTransfersParamsDexInclude GetAccountAddressTransfersParamsDex = "include"
+	GetAccountAddressTransfersParamsDexOnly    GetAccountAddressTransfersParamsDex = "only"
+)
+
+// Valid indicates whether the value is a known member of the GetAccountAddressTransfersParamsDex enum.
+func (e GetAccountAddressTransfersParamsDex) Valid() bool {
+	switch e {
+	case GetAccountAddressTransfersParamsDexExclude:
+		return true
+	case GetAccountAddressTransfersParamsDexInclude:
+		return true
+	case GetAccountAddressTransfersParamsDexOnly:
 		return true
 	default:
 		return false
@@ -101,9 +368,12 @@ const (
 	GetChartTokenParamsTypeN1w  GetChartTokenParamsType = "1w"
 	GetChartTokenParamsTypeN2h  GetChartTokenParamsType = "2h"
 	GetChartTokenParamsTypeN30m GetChartTokenParamsType = "30m"
+	GetChartTokenParamsTypeN30s GetChartTokenParamsType = "30s"
 	GetChartTokenParamsTypeN3d  GetChartTokenParamsType = "3d"
+	GetChartTokenParamsTypeN3h  GetChartTokenParamsType = "3h"
 	GetChartTokenParamsTypeN3m  GetChartTokenParamsType = "3m"
 	GetChartTokenParamsTypeN4h  GetChartTokenParamsType = "4h"
+	GetChartTokenParamsTypeN5h  GetChartTokenParamsType = "5h"
 	GetChartTokenParamsTypeN5m  GetChartTokenParamsType = "5m"
 	GetChartTokenParamsTypeN5s  GetChartTokenParamsType = "5s"
 	GetChartTokenParamsTypeN6h  GetChartTokenParamsType = "6h"
@@ -135,11 +405,17 @@ func (e GetChartTokenParamsType) Valid() bool {
 		return true
 	case GetChartTokenParamsTypeN30m:
 		return true
+	case GetChartTokenParamsTypeN30s:
+		return true
 	case GetChartTokenParamsTypeN3d:
+		return true
+	case GetChartTokenParamsTypeN3h:
 		return true
 	case GetChartTokenParamsTypeN3m:
 		return true
 	case GetChartTokenParamsTypeN4h:
+		return true
+	case GetChartTokenParamsTypeN5h:
 		return true
 	case GetChartTokenParamsTypeN5m:
 		return true
@@ -188,9 +464,12 @@ const (
 	GetChartTokenPoolParamsTypeN1w  GetChartTokenPoolParamsType = "1w"
 	GetChartTokenPoolParamsTypeN2h  GetChartTokenPoolParamsType = "2h"
 	GetChartTokenPoolParamsTypeN30m GetChartTokenPoolParamsType = "30m"
+	GetChartTokenPoolParamsTypeN30s GetChartTokenPoolParamsType = "30s"
 	GetChartTokenPoolParamsTypeN3d  GetChartTokenPoolParamsType = "3d"
+	GetChartTokenPoolParamsTypeN3h  GetChartTokenPoolParamsType = "3h"
 	GetChartTokenPoolParamsTypeN3m  GetChartTokenPoolParamsType = "3m"
 	GetChartTokenPoolParamsTypeN4h  GetChartTokenPoolParamsType = "4h"
+	GetChartTokenPoolParamsTypeN5h  GetChartTokenPoolParamsType = "5h"
 	GetChartTokenPoolParamsTypeN5m  GetChartTokenPoolParamsType = "5m"
 	GetChartTokenPoolParamsTypeN5s  GetChartTokenPoolParamsType = "5s"
 	GetChartTokenPoolParamsTypeN6h  GetChartTokenPoolParamsType = "6h"
@@ -222,11 +501,17 @@ func (e GetChartTokenPoolParamsType) Valid() bool {
 		return true
 	case GetChartTokenPoolParamsTypeN30m:
 		return true
+	case GetChartTokenPoolParamsTypeN30s:
+		return true
 	case GetChartTokenPoolParamsTypeN3d:
+		return true
+	case GetChartTokenPoolParamsTypeN3h:
 		return true
 	case GetChartTokenPoolParamsTypeN3m:
 		return true
 	case GetChartTokenPoolParamsTypeN4h:
+		return true
+	case GetChartTokenPoolParamsTypeN5h:
 		return true
 	case GetChartTokenPoolParamsTypeN5m:
 		return true
@@ -307,6 +592,7 @@ const (
 	GetSearchParamsSortByLiquidityUsd      GetSearchParamsSortBy = "liquidityUsd"
 	GetSearchParamsSortByLpBurn            GetSearchParamsSortBy = "lpBurn"
 	GetSearchParamsSortByMarketCapUsd      GetSearchParamsSortBy = "marketCapUsd"
+	GetSearchParamsSortByMigrationSeconds  GetSearchParamsSortBy = "migrationSeconds"
 	GetSearchParamsSortByPriceUsd          GetSearchParamsSortBy = "priceUsd"
 	GetSearchParamsSortBySells             GetSearchParamsSortBy = "sells"
 	GetSearchParamsSortBySnipers           GetSearchParamsSortBy = "snipers"
@@ -350,6 +636,8 @@ func (e GetSearchParamsSortBy) Valid() bool {
 	case GetSearchParamsSortByLpBurn:
 		return true
 	case GetSearchParamsSortByMarketCapUsd:
+		return true
+	case GetSearchParamsSortByMigrationSeconds:
 		return true
 	case GetSearchParamsSortByPriceUsd:
 		return true
@@ -640,6 +928,27 @@ func (e GetTradesTokenAddressParamsSortDirection) Valid() bool {
 	}
 }
 
+// Defines values for GetTradesTokenAddressParamsCurrency.
+const (
+	GetTradesTokenAddressParamsCurrencyEur GetTradesTokenAddressParamsCurrency = "eur"
+	GetTradesTokenAddressParamsCurrencySol GetTradesTokenAddressParamsCurrency = "sol"
+	GetTradesTokenAddressParamsCurrencyUsd GetTradesTokenAddressParamsCurrency = "usd"
+)
+
+// Valid indicates whether the value is a known member of the GetTradesTokenAddressParamsCurrency enum.
+func (e GetTradesTokenAddressParamsCurrency) Valid() bool {
+	switch e {
+	case GetTradesTokenAddressParamsCurrencyEur:
+		return true
+	case GetTradesTokenAddressParamsCurrencySol:
+		return true
+	case GetTradesTokenAddressParamsCurrencyUsd:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for GetTradesTokenAddressByWalletOwnerParamsEvents.
 const (
 	GetTradesTokenAddressByWalletOwnerParamsEventsAll       GetTradesTokenAddressByWalletOwnerParamsEvents = "all"
@@ -673,6 +982,27 @@ func (e GetTradesTokenAddressByWalletOwnerParamsSortDirection) Valid() bool {
 	case GetTradesTokenAddressByWalletOwnerParamsSortDirectionASC:
 		return true
 	case GetTradesTokenAddressByWalletOwnerParamsSortDirectionDESC:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetTradesTokenAddressByWalletOwnerParamsCurrency.
+const (
+	GetTradesTokenAddressByWalletOwnerParamsCurrencyEur GetTradesTokenAddressByWalletOwnerParamsCurrency = "eur"
+	GetTradesTokenAddressByWalletOwnerParamsCurrencySol GetTradesTokenAddressByWalletOwnerParamsCurrency = "sol"
+	GetTradesTokenAddressByWalletOwnerParamsCurrencyUsd GetTradesTokenAddressByWalletOwnerParamsCurrency = "usd"
+)
+
+// Valid indicates whether the value is a known member of the GetTradesTokenAddressByWalletOwnerParamsCurrency enum.
+func (e GetTradesTokenAddressByWalletOwnerParamsCurrency) Valid() bool {
+	switch e {
+	case GetTradesTokenAddressByWalletOwnerParamsCurrencyEur:
+		return true
+	case GetTradesTokenAddressByWalletOwnerParamsCurrencySol:
+		return true
+	case GetTradesTokenAddressByWalletOwnerParamsCurrencyUsd:
 		return true
 	default:
 		return false
@@ -718,6 +1048,27 @@ func (e GetTradesTokenAddressPoolAddressParamsSortDirection) Valid() bool {
 	}
 }
 
+// Defines values for GetTradesTokenAddressPoolAddressParamsCurrency.
+const (
+	GetTradesTokenAddressPoolAddressParamsCurrencyEur GetTradesTokenAddressPoolAddressParamsCurrency = "eur"
+	GetTradesTokenAddressPoolAddressParamsCurrencySol GetTradesTokenAddressPoolAddressParamsCurrency = "sol"
+	GetTradesTokenAddressPoolAddressParamsCurrencyUsd GetTradesTokenAddressPoolAddressParamsCurrency = "usd"
+)
+
+// Valid indicates whether the value is a known member of the GetTradesTokenAddressPoolAddressParamsCurrency enum.
+func (e GetTradesTokenAddressPoolAddressParamsCurrency) Valid() bool {
+	switch e {
+	case GetTradesTokenAddressPoolAddressParamsCurrencyEur:
+		return true
+	case GetTradesTokenAddressPoolAddressParamsCurrencySol:
+		return true
+	case GetTradesTokenAddressPoolAddressParamsCurrencyUsd:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for GetTradesTokenAddressPoolAddressOwnerParamsEvents.
 const (
 	GetTradesTokenAddressPoolAddressOwnerParamsEventsAll       GetTradesTokenAddressPoolAddressOwnerParamsEvents = "all"
@@ -757,11 +1108,105 @@ func (e GetTradesTokenAddressPoolAddressOwnerParamsSortDirection) Valid() bool {
 	}
 }
 
+// Defines values for GetTradesTokenAddressPoolAddressOwnerParamsCurrency.
+const (
+	GetTradesTokenAddressPoolAddressOwnerParamsCurrencyEur GetTradesTokenAddressPoolAddressOwnerParamsCurrency = "eur"
+	GetTradesTokenAddressPoolAddressOwnerParamsCurrencySol GetTradesTokenAddressPoolAddressOwnerParamsCurrency = "sol"
+	GetTradesTokenAddressPoolAddressOwnerParamsCurrencyUsd GetTradesTokenAddressPoolAddressOwnerParamsCurrency = "usd"
+)
+
+// Valid indicates whether the value is a known member of the GetTradesTokenAddressPoolAddressOwnerParamsCurrency enum.
+func (e GetTradesTokenAddressPoolAddressOwnerParamsCurrency) Valid() bool {
+	switch e {
+	case GetTradesTokenAddressPoolAddressOwnerParamsCurrencyEur:
+		return true
+	case GetTradesTokenAddressPoolAddressOwnerParamsCurrencySol:
+		return true
+	case GetTradesTokenAddressPoolAddressOwnerParamsCurrencyUsd:
+		return true
+	default:
+		return false
+	}
+}
+
 // ATHResponse defines model for ATHResponse.
 type ATHResponse struct {
 	HighestPrice *float64 `json:"highest_price,omitempty"`
 	Timestamp    *int     `json:"timestamp,omitempty"`
 }
+
+// AccountTransfer defines model for AccountTransfer.
+type AccountTransfer struct {
+	// Amount Raw amount in base units
+	Amount   string `json:"amount"`
+	Decimals int    `json:"decimals"`
+
+	// Direction Relative to the requested address
+	Direction AccountTransferDirection `json:"direction"`
+	From      TransferParty            `json:"from"`
+
+	// Price USD price at the time of the transfer. Only with `historicPrices=true` or a value filter; `usd` is null when no price was found.
+	Price *struct {
+		Usd *float64 `json:"usd"`
+	} `json:"price,omitempty"`
+	Signature string                `json:"signature"`
+	Slot      *int                  `json:"slot"`
+	Status    AccountTransferStatus `json:"status"`
+
+	// Timestamp Block time, Unix seconds
+	Timestamp *int                `json:"timestamp"`
+	To        TransferParty       `json:"to"`
+	Token     TransferToken       `json:"token"`
+	Type      AccountTransferType `json:"type"`
+
+	// UiAmount Exact decimal amount
+	UiAmount string `json:"uiAmount"`
+
+	// Value `uiAmount` × price. Only with `historicPrices=true` or a value filter.
+	Value *struct {
+		Usd *float64 `json:"usd"`
+	} `json:"value,omitempty"`
+}
+
+// AccountTransferDirection Relative to the requested address
+type AccountTransferDirection string
+
+// AccountTransferStatus defines model for AccountTransfer.Status.
+type AccountTransferStatus string
+
+// AccountTransferType defines model for AccountTransfer.Type.
+type AccountTransferType string
+
+// AccountTransfersResponse defines model for AccountTransfersResponse.
+type AccountTransfersResponse struct {
+	Account string `json:"account"`
+
+	// EnrichmentStatus Present when the price lookup ran out of time: prices it did not find are null. Such a page is not cached.
+	EnrichmentStatus *AccountTransfersResponseEnrichmentStatus `json:"enrichmentStatus,omitempty"`
+
+	// Grouped Present and true when `grouped=true`
+	Grouped    *bool `json:"grouped,omitempty"`
+	Pagination struct {
+		// Count Transfers in this page (transactions when grouped)
+		Count   *int  `json:"count,omitempty"`
+		HasMore *bool `json:"hasMore,omitempty"`
+
+		// Next Pass as `cursor` for the next page
+		Next *string `json:"next,omitempty"`
+
+		// TransferCount `grouped=true` only: transfers in this page
+		TransferCount *int `json:"transferCount,omitempty"`
+	} `json:"pagination"`
+
+	// Transactions `grouped=true` only
+	Transactions *[]TransferTransaction `json:"transactions,omitempty"`
+
+	// Transfers Transfers in this page. With `grouped=true`, every transfer of the returned transactions.
+	Transfers []AccountTransfer `json:"transfers"`
+}
+
+// AccountTransfersResponseEnrichmentStatus Present when the price lookup ran out of time: prices it did not find are null. Such a page is not cached.
+type AccountTransfersResponseEnrichmentStatus string
 
 // BundlerWallet defines model for BundlerWallet.
 type BundlerWallet struct {
@@ -1449,17 +1894,20 @@ type SearchToken struct {
 		Name            *string  `json:"name,omitempty"`
 		Url             *string  `json:"url,omitempty"`
 	} `json:"launchpad,omitempty"`
-	LiquidityUsd  *float64 `json:"liquidityUsd,omitempty"`
-	LpBurn        *int     `json:"lpBurn,omitempty"`
-	Market        *string  `json:"market,omitempty"`
-	MarketCapUsd  *float64 `json:"marketCapUsd,omitempty"`
-	Mint          *string  `json:"mint,omitempty"`
-	MintAuthority *string  `json:"mintAuthority,omitempty"`
-	Name          *string  `json:"name,omitempty"`
-	PoolAddress   *string  `json:"poolAddress,omitempty"`
-	PriceUsd      *float64 `json:"priceUsd,omitempty"`
-	QuoteToken    *string  `json:"quoteToken,omitempty"`
-	RiskScore     *int     `json:"riskScore,omitempty"`
+	LiquidityUsd *float64 `json:"liquidityUsd,omitempty"`
+	LpBurn       *int     `json:"lpBurn,omitempty"`
+	Market       *string  `json:"market,omitempty"`
+	MarketCapUsd *float64 `json:"marketCapUsd,omitempty"`
+
+	// MigrationSeconds Seconds from the token's creation to its migration, with millisecond precision. `0` when it was created and migrated in the same block. Only present on migrated tokens.
+	MigrationSeconds *float64 `json:"migrationSeconds,omitempty"`
+	Mint             *string  `json:"mint,omitempty"`
+	MintAuthority    *string  `json:"mintAuthority,omitempty"`
+	Name             *string  `json:"name,omitempty"`
+	PoolAddress      *string  `json:"poolAddress,omitempty"`
+	PriceUsd         *float64 `json:"priceUsd,omitempty"`
+	QuoteToken       *string  `json:"quoteToken,omitempty"`
+	RiskScore        *int     `json:"riskScore,omitempty"`
 
 	// Sells Recent sell counts or sell activity, depending on the endpoint response.
 	Sells   *int     `json:"sells,omitempty"`
@@ -1588,16 +2036,22 @@ type TokenTrade struct {
 	Amount *float64 `json:"amount,omitempty"`
 
 	// Identity Present only with enrich=identity. Current wallet labels, including available KOL, platform, developer/pool and SNS identity. Null when no identity is known.
-	Identity  *EnrichedIdentity `json:"identity,omitempty"`
-	Pools     *[]string         `json:"pools,omitempty"`
-	PriceUsd  *float64          `json:"priceUsd,omitempty"`
-	Program   *string           `json:"program,omitempty"`
-	Time      int               `json:"time"`
-	Tx        string            `json:"tx"`
-	Type      TokenTradeType    `json:"type"`
-	Volume    *float64          `json:"volume,omitempty"`
-	VolumeSol *float64          `json:"volumeSol,omitempty"`
-	Wallet    string            `json:"wallet"`
+	Identity *EnrichedIdentity `json:"identity,omitempty"`
+
+	// MarketCap Market cap in the requested `currency` at the trade's price, using the current supply. Only present when `marketCap=true`.
+	MarketCap *float64  `json:"marketCap,omitempty"`
+	Pools     *[]string `json:"pools,omitempty"`
+
+	// Price Price per token in the requested `currency` at the time of the trade. Only present when `currency` or `marketCap` is set.
+	Price     *float64       `json:"price,omitempty"`
+	PriceUsd  *float64       `json:"priceUsd,omitempty"`
+	Program   *string        `json:"program,omitempty"`
+	Time      int            `json:"time"`
+	Tx        string         `json:"tx"`
+	Type      TokenTradeType `json:"type"`
+	Volume    *float64       `json:"volume,omitempty"`
+	VolumeSol *float64       `json:"volumeSol,omitempty"`
+	Wallet    string         `json:"wallet"`
 }
 
 // TokenTradeType defines model for TokenTrade.Type.
@@ -1605,13 +2059,18 @@ type TokenTradeType string
 
 // TokenTradesResponse defines model for TokenTradesResponse.
 type TokenTradesResponse struct {
-	HasNextPage *bool `json:"hasNextPage,omitempty"`
+	// Currency Currency of `price` and `marketCap`. Present when `currency` or `marketCap` is set.
+	Currency    *TokenTradesResponseCurrency `json:"currency,omitempty"`
+	HasNextPage *bool                        `json:"hasNextPage,omitempty"`
 
 	// NextCursor Timestamp for trades-only requests; opaque string for events=all/liquidity. Pass back unchanged with the same filters. Null at the end.
 	NextCursor    *TokenTradesResponse_NextCursor    `json:"nextCursor,omitempty"`
 	SortDirection *TokenTradesResponseSortDirection  `json:"sortDirection,omitempty"`
 	Trades        *[]TokenTradesResponse_Trades_Item `json:"trades,omitempty"`
 }
+
+// TokenTradesResponseCurrency Currency of `price` and `marketCap`. Present when `currency` or `marketCap` is set.
+type TokenTradesResponseCurrency string
 
 // TokenTradesResponseNextCursor0 defines model for TokenTradesResponse.NextCursor.0.
 type TokenTradesResponseNextCursor0 = int
@@ -1706,6 +2165,140 @@ type TradesResponse struct {
 	Trades      *[]Trade `json:"trades,omitempty"`
 }
 
+// TransferParty defines model for TransferParty.
+type TransferParty struct {
+	// Address Token account for SPL transfers, wallet for SOL transfers
+	Address string `json:"address"`
+
+	// Identity Known wallet identity (KOL, exchange, pool, developer, SNS name and tags). Omitted for unknown wallets.
+	Identity *map[string]interface{} `json:"identity,omitempty"`
+
+	// Owner Wallet that owned `address` at the time of the transfer
+	Owner string `json:"owner"`
+}
+
+// TransferToken defines model for TransferToken.
+type TransferToken struct {
+	Decimals *int    `json:"decimals,omitempty"`
+	Image    *string `json:"image,omitempty"`
+
+	// Mint `So11111111111111111111111111111111111111112` for SOL
+	Mint   *string `json:"mint,omitempty"`
+	Name   *string `json:"name,omitempty"`
+	Symbol *string `json:"symbol,omitempty"`
+}
+
+// TransferTokenTotal defines model for TransferTokenTotal.
+type TransferTokenTotal struct {
+	Amount    *string                      `json:"amount,omitempty"`
+	Decimals  *int                         `json:"decimals,omitempty"`
+	Direction *TransferTokenTotalDirection `json:"direction,omitempty"`
+
+	// Price Only with `historicPrices=true` or a value filter.
+	Price *struct {
+		Usd *float64 `json:"usd"`
+	} `json:"price,omitempty"`
+	Token    *TransferToken `json:"token,omitempty"`
+	UiAmount *string        `json:"uiAmount,omitempty"`
+
+	// Value Only with `historicPrices=true` or a value filter.
+	Value *struct {
+		Usd *float64 `json:"usd"`
+	} `json:"value,omitempty"`
+}
+
+// TransferTokenTotalDirection defines model for TransferTokenTotal.Direction.
+type TransferTokenTotalDirection string
+
+// TransferTransaction defines model for TransferTransaction.
+type TransferTransaction struct {
+	// Dex `true` when the transaction has DEX activity (see `dex`)
+	Dex *bool `json:"dex,omitempty"`
+
+	// Direction `swap` when `dex` is true; otherwise `in`, `out`, or `both` when the transaction moved tokens both ways
+	Direction *TransferTransactionDirection `json:"direction,omitempty"`
+
+	// Legs Transfers in this transaction
+	Legs      *int    `json:"legs,omitempty"`
+	Signature *string `json:"signature,omitempty"`
+	Slot      *int    `json:"slot,omitempty"`
+
+	// Status Outcome of the transaction
+	Status *TransferTransactionStatus `json:"status,omitempty"`
+
+	// Swap Set when the address sent one token and received another
+	Swap *struct {
+		In  *TransferTokenTotal `json:"in,omitempty"`
+		Out *TransferTokenTotal `json:"out,omitempty"`
+	} `json:"swap,omitempty"`
+	Timestamp *int `json:"timestamp,omitempty"`
+	Totals    *struct {
+		// In With a single token on that side, the token's totals; otherwise `legs`. `usd` only with `historicPrices=true` or a value filter.
+		In *struct {
+			Amount   *string `json:"amount,omitempty"`
+			Decimals *int    `json:"decimals,omitempty"`
+			Legs     *int    `json:"legs,omitempty"`
+
+			// Price Only with `historicPrices=true` or a value filter.
+			Price *struct {
+				Usd *float64 `json:"usd"`
+			} `json:"price,omitempty"`
+			Token    *TransferToken `json:"token,omitempty"`
+			UiAmount *string        `json:"uiAmount,omitempty"`
+			Usd      *float64       `json:"usd,omitempty"`
+
+			// Value Only with `historicPrices=true` or a value filter.
+			Value *struct {
+				Usd *float64 `json:"usd"`
+			} `json:"value,omitempty"`
+		} `json:"in,omitempty"`
+
+		// Net USD in minus out. Only with `historicPrices=true` or a value filter.
+		Net *struct {
+			Usd *float64 `json:"usd"`
+		} `json:"net,omitempty"`
+
+		// Out With a single token on that side, the token's totals; otherwise `legs`. `usd` only with `historicPrices=true` or a value filter.
+		Out *struct {
+			Amount   *string `json:"amount,omitempty"`
+			Decimals *int    `json:"decimals,omitempty"`
+			Legs     *int    `json:"legs,omitempty"`
+
+			// Price Only with `historicPrices=true` or a value filter.
+			Price *struct {
+				Usd *float64 `json:"usd"`
+			} `json:"price,omitempty"`
+			Token    *TransferToken `json:"token,omitempty"`
+			UiAmount *string        `json:"uiAmount,omitempty"`
+			Usd      *float64       `json:"usd,omitempty"`
+
+			// Value Only with `historicPrices=true` or a value filter.
+			Value *struct {
+				Usd *float64 `json:"usd"`
+			} `json:"value,omitempty"`
+		} `json:"out,omitempty"`
+		Tokens *[]TransferTokenTotal `json:"tokens,omitempty"`
+
+		// Value Gross USD in plus out. Only with `historicPrices=true` or a value filter.
+		Value *struct {
+			Usd *float64 `json:"usd"`
+		} `json:"value,omitempty"`
+	} `json:"totals,omitempty"`
+	Transfers *[]AccountTransfer `json:"transfers,omitempty"`
+
+	// Type `swap` when `dex` is true, otherwise `transfer`
+	Type *TransferTransactionType `json:"type,omitempty"`
+}
+
+// TransferTransactionDirection `swap` when `dex` is true; otherwise `in`, `out`, or `both` when the transaction moved tokens both ways
+type TransferTransactionDirection string
+
+// TransferTransactionStatus Outcome of the transaction
+type TransferTransactionStatus string
+
+// TransferTransactionType `swap` when `dex` is true, otherwise `transfer`
+type TransferTransactionType string
+
 // WalletBasicResponse defines model for WalletBasicResponse.
 type WalletBasicResponse struct {
 	Tokens *[]struct {
@@ -1770,6 +2363,96 @@ type WalletResponse struct {
 	TotalSol *float64 `json:"totalSol,omitempty"`
 }
 
+// GetAccountAddressTransfersParams defines parameters for GetAccountAddressTransfers.
+type GetAccountAddressTransfersParams struct {
+	// Limit Transfers per page. A page holds whole transactions, so it can hold a few more or fewer. With `grouped=true` it counts transactions instead, unless `dex=include` is set and none of `type`, the address, amount or slot filters, or `excludeZero` are. At most 100 with `minValue` or `maxValue`.
+	Limit *int `form:"limit,omitempty" json:"limit,omitempty"`
+
+	// Cursor `pagination.next` from the previous page. Keep every other parameter the same between pages. An empty `cursor=` returns the first page.
+	Cursor *string `form:"cursor,omitempty" json:"cursor,omitempty"`
+
+	// SortOrder `desc` returns newest first, `asc` oldest first.
+	SortOrder *GetAccountAddressTransfersParamsSortOrder `form:"sortOrder,omitempty" json:"sortOrder,omitempty"`
+
+	// Start Block time from, Unix **seconds**, inclusive. Milliseconds are rejected.
+	Start *int `form:"start,omitempty" json:"start,omitempty"`
+
+	// End Block time to, Unix **seconds**, inclusive. Must be at least `start`.
+	End *int `form:"end,omitempty" json:"end,omitempty"`
+
+	// StartSlot Slot from, inclusive.
+	StartSlot *int `form:"startSlot,omitempty" json:"startSlot,omitempty"`
+
+	// EndSlot Slot to, inclusive.
+	EndSlot *int `form:"endSlot,omitempty" json:"endSlot,omitempty"`
+
+	// Direction Transfers received by (`in`) or sent from (`out`) the address.
+	Direction *GetAccountAddressTransfersParamsDirection `form:"direction,omitempty" json:"direction,omitempty"`
+
+	// Type `sol` for native SOL transfers, `spl` for SPL and Token-2022 transfers (wrapped SOL included). Both by default.
+	Type *GetAccountAddressTransfersParamsType `form:"type,omitempty" json:"type,omitempty"`
+
+	// Mint Only transfers of this token. The wrapped SOL mint `So11111111111111111111111111111111111111112` returns native SOL and wrapped SOL transfers.
+	Mint *string `form:"mint,omitempty" json:"mint,omitempty"`
+
+	// Status Outcome of the transaction: `success` (default), `failed` or `any`. Each transfer has its own `status`.
+	Status *GetAccountAddressTransfersParamsStatus `form:"status,omitempty" json:"status,omitempty"`
+
+	// Dex `exclude` (default) leaves out every transfer of a transaction with DEX activity, `only` returns only those, `include` returns everything. A transaction has DEX activity when one of its transfers goes to or comes from a pool (an account a DEX or launchpad program owns, or a Raydium or Meteora vault authority): swaps, liquidity adds and removes, and fee or reward claims. A transaction where the address sent one token and received another counts too.
+	Dex *GetAccountAddressTransfersParamsDex `form:"dex,omitempty" json:"dex,omitempty"`
+
+	// From Up to 5 comma-separated sender addresses (wallet or token account).
+	From *string `form:"from,omitempty" json:"from,omitempty"`
+
+	// To Up to 5 comma-separated receiver addresses (wallet or token account).
+	To *string `form:"to,omitempty" json:"to,omitempty"`
+
+	// Counterparty Up to 5 comma-separated addresses on either side (wallet or token account).
+	Counterparty *string `form:"counterparty,omitempty" json:"counterparty,omitempty"`
+
+	// ExcludeFrom Drop transfers from these addresses (up to 5, comma-separated).
+	ExcludeFrom *string `form:"excludeFrom,omitempty" json:"excludeFrom,omitempty"`
+
+	// ExcludeTo Drop transfers to these addresses (up to 5, comma-separated).
+	ExcludeTo *string `form:"excludeTo,omitempty" json:"excludeTo,omitempty"`
+
+	// MinAmount Minimum amount in token units (`uiAmount`), inclusive.
+	MinAmount *float64 `form:"minAmount,omitempty" json:"minAmount,omitempty"`
+
+	// MaxAmount Maximum amount in token units (`uiAmount`), inclusive.
+	MaxAmount *float64 `form:"maxAmount,omitempty" json:"maxAmount,omitempty"`
+
+	// MinValue Minimum USD value at the time of the transfer, inclusive. Turns on `historicPrices`, and `limit` can be at most 100. Each page checks the next `limit` transfers and returns those that match, so it can hold fewer, or none, while `hasMore` is `true`.
+	MinValue *float64 `form:"minValue,omitempty" json:"minValue,omitempty"`
+
+	// MaxValue Maximum USD value at the time of the transfer, inclusive. Turns on `historicPrices`, and `limit` can be at most 100.
+	MaxValue *float64 `form:"maxValue,omitempty" json:"maxValue,omitempty"`
+
+	// HistoricPrices Add `price.usd` and `value.usd` to every transfer: the token's USD price from the last 1-minute candle at or before the transfer, at most an hour old, else `null`. USDC, USDT and USD1 are priced at 1. Without it, transfers have no `price` or `value`.
+	HistoricPrices *bool `form:"historicPrices,omitempty" json:"historicPrices,omitempty"`
+
+	// Grouped Also return `transactions`: the page's transfers grouped by transaction, with totals, `dex` and swap detection.
+	Grouped *bool `form:"grouped,omitempty" json:"grouped,omitempty"`
+
+	// ExcludeZero Drop zero-amount transfers.
+	ExcludeZero *bool `form:"excludeZero,omitempty" json:"excludeZero,omitempty"`
+}
+
+// GetAccountAddressTransfersParamsSortOrder defines parameters for GetAccountAddressTransfers.
+type GetAccountAddressTransfersParamsSortOrder string
+
+// GetAccountAddressTransfersParamsDirection defines parameters for GetAccountAddressTransfers.
+type GetAccountAddressTransfersParamsDirection string
+
+// GetAccountAddressTransfersParamsType defines parameters for GetAccountAddressTransfers.
+type GetAccountAddressTransfersParamsType string
+
+// GetAccountAddressTransfersParamsStatus defines parameters for GetAccountAddressTransfers.
+type GetAccountAddressTransfersParamsStatus string
+
+// GetAccountAddressTransfersParamsDex defines parameters for GetAccountAddressTransfers.
+type GetAccountAddressTransfersParamsDex string
+
 // GetBundlersChartTokenParams defines parameters for GetBundlersChartToken.
 type GetBundlersChartTokenParams struct {
 	// Type Time interval (e.g., '1s', '1m', '1h', '1d')
@@ -1784,7 +2467,7 @@ type GetBundlersChartTokenParams struct {
 
 // GetChartTokenParams defines parameters for GetChartToken.
 type GetChartTokenParams struct {
-	// Type Time interval (e.g., '1s', '1m', '1h', '1d')
+	// Type Candle interval. `5h` candles start at 00:00, 05:00, 10:00, 15:00 and 20:00 UTC.
 	Type *GetChartTokenParamsType `form:"type,omitempty" json:"type,omitempty"`
 
 	// TimeFrom Start time (Unix timestamp in seconds)
@@ -1820,7 +2503,7 @@ type GetChartTokenParamsCurrency string
 
 // GetChartTokenPoolParams defines parameters for GetChartTokenPool.
 type GetChartTokenPoolParams struct {
-	// Type Time interval (e.g., '1s', '1m', '1h', '1d')
+	// Type Candle interval. `5h` candles start at 00:00, 05:00, 10:00, 15:00 and 20:00 UTC.
 	Type *GetChartTokenPoolParamsType `form:"type,omitempty" json:"type,omitempty"`
 
 	// TimeFrom Start time (Unix timestamp in seconds)
@@ -1985,7 +2668,7 @@ type GetSearchParams struct {
 	// SortOrder Sort order
 	SortOrder *GetSearchParamsSortOrder `form:"sortOrder,omitempty" json:"sortOrder,omitempty"`
 
-	// HasImage Filter tokens by image presence. Set to true for tokens with images, false for tokens without images
+	// HasImage Filter by image presence. `true` for tokens with an image, `false` for tokens without one. Empty image values count as no image.
 	HasImage *bool `form:"hasImage,omitempty" json:"hasImage,omitempty"`
 
 	// HasSocials Filter tokens by social presence. Set to true for tokens with socials, false for tokens without socials
@@ -1994,8 +2677,11 @@ type GetSearchParams struct {
 	// Image Filter by exact image URL or IPFS hash. Supports full URLs or IPFS content identifiers (CID). For IPFS URLs containing '/ipfs/', only the hash/CID is used for matching (e.g., 'QmXyZ...' will match any gateway URL with that hash)
 	Image *string `form:"image,omitempty" json:"image,omitempty"`
 
-	// Launchpad Filter by launchpad platform name. Supports comma-separated values for multiple launchpads (e.g., 'pumpfun,boop'). Single values still work as before.
+	// Launchpad Filter by launchpad name, case-insensitive. Comma-separated for several (e.g. `pumpfun,boop,stonkfun`). Pools that migrated from a launchpad keep its name, so `letsbonk.fun` or `stonkfun` also match their migrated Raydium pools.
 	Launchpad *string `form:"launchpad,omitempty" json:"launchpad,omitempty"`
+
+	// QuoteToken Filter by the pool's quote token. Comma-separated mint addresses or symbols (`SOL`, `USDC`, `USDT`, `USD1`, `CASH`, `CBBTC`, `LBTC`, case-insensitive), up to 20. Example: `SOL,USDC`.
+	QuoteToken *string `form:"quoteToken,omitempty" json:"quoteToken,omitempty"`
 
 	// ShowAllPools Return all pools for a token if enabled
 	ShowAllPools *bool `form:"showAllPools,omitempty" json:"showAllPools,omitempty"`
@@ -2003,17 +2689,29 @@ type GetSearchParams struct {
 	// ShowPriceChanges Include price change data in response
 	ShowPriceChanges *bool `form:"showPriceChanges,omitempty" json:"showPriceChanges,omitempty"`
 
-	// MinCreatedAt Minimum creation date in unix time (ms)
+	// MinCreatedAt Minimum pool creation time in Unix milliseconds. To filter by when the token itself was created, use `minTokenCreatedAt`.
 	MinCreatedAt *int `form:"minCreatedAt,omitempty" json:"minCreatedAt,omitempty"`
 
-	// MaxCreatedAt Maximum creation date in unix time (ms)
+	// MaxCreatedAt Maximum pool creation time in Unix milliseconds. To filter by when the token itself was created, use `maxTokenCreatedAt`.
 	MaxCreatedAt *int `form:"maxCreatedAt,omitempty" json:"maxCreatedAt,omitempty"`
+
+	// MinTokenCreatedAt Minimum token (mint) creation time, inclusive. Unix seconds or milliseconds. Unlike `minCreatedAt`, this uses when the token was created, not when the pool was.
+	MinTokenCreatedAt *int `form:"minTokenCreatedAt,omitempty" json:"minTokenCreatedAt,omitempty"`
+
+	// MaxTokenCreatedAt Maximum token (mint) creation time, inclusive. Unix seconds or milliseconds.
+	MaxTokenCreatedAt *int `form:"maxTokenCreatedAt,omitempty" json:"maxTokenCreatedAt,omitempty"`
 
 	// MinGraduatedAt Minimum graduation date in unix time (ms)
 	MinGraduatedAt *int `form:"minGraduatedAt,omitempty" json:"minGraduatedAt,omitempty"`
 
 	// MaxGraduatedAt Maximum graduation date in unix time (ms)
 	MaxGraduatedAt *int `form:"maxGraduatedAt,omitempty" json:"maxGraduatedAt,omitempty"`
+
+	// MinMigrationSeconds Only tokens that took **more than** this many seconds from creation to migration. `minMigrationSeconds=5` filters out tokens that migrated within 5 seconds of being created. Tokens that have not migrated do not match.
+	MinMigrationSeconds *float64 `form:"minMigrationSeconds,omitempty" json:"minMigrationSeconds,omitempty"`
+
+	// MaxMigrationSeconds Only tokens that migrated within this many seconds of creation, inclusive. `maxMigrationSeconds=0` returns tokens created and migrated in the same block.
+	MaxMigrationSeconds *float64 `form:"maxMigrationSeconds,omitempty" json:"maxMigrationSeconds,omitempty"`
 
 	// MinLiquidity Minimum liquidity in USD
 	MinLiquidity *float64 `form:"minLiquidity,omitempty" json:"minLiquidity,omitempty"`
@@ -2110,6 +2808,12 @@ type GetSearchParams struct {
 	// MaxBundlerPercentage Maximum % held by bundlers (0-100)
 	MaxBundlerPercentage *float64 `form:"maxBundlerPercentage,omitempty" json:"maxBundlerPercentage,omitempty"`
 
+	// MinBundlerBalance Minimum token balance held by bundler wallets, in token units.
+	MinBundlerBalance *float64 `form:"minBundlerBalance,omitempty" json:"minBundlerBalance,omitempty"`
+
+	// MaxBundlerBalance Maximum token balance held by bundler wallets, in token units.
+	MaxBundlerBalance *float64 `form:"maxBundlerBalance,omitempty" json:"maxBundlerBalance,omitempty"`
+
 	// MinRiskScore Minimum risk score filter
 	MinRiskScore *float64 `form:"minRiskScore,omitempty" json:"minRiskScore,omitempty"`
 
@@ -2143,34 +2847,34 @@ type GetSearchParams struct {
 	// MaxCurvePercentage Maximum bonding curve % (0-100)
 	MaxCurvePercentage *float64 `form:"maxCurvePercentage,omitempty" json:"maxCurvePercentage,omitempty"`
 
-	// Twitter Twitter/X profile URL (exact match)
+	// Twitter Filter by the token's twitter link. Matches with or without `https://`, `www.` and a trailing slash.
 	Twitter *string `form:"twitter,omitempty" json:"twitter,omitempty"`
 
-	// Telegram Telegram channel/group URL (exact match)
+	// Telegram Filter by the token's telegram link. Matches with or without `https://`, `www.` and a trailing slash.
 	Telegram *string `form:"telegram,omitempty" json:"telegram,omitempty"`
 
-	// Discord Discord server invite URL (exact match)
+	// Discord Filter by the token's discord link. Matches with or without `https://`, `www.` and a trailing slash.
 	Discord *string `form:"discord,omitempty" json:"discord,omitempty"`
 
-	// Website Official website URL (exact match)
+	// Website Filter by the token's website link. Matches with or without `https://`, `www.` and a trailing slash.
 	Website *string `form:"website,omitempty" json:"website,omitempty"`
 
-	// Facebook Facebook page URL (exact match)
+	// Facebook Filter by the token's facebook link. Matches with or without `https://`, `www.` and a trailing slash.
 	Facebook *string `form:"facebook,omitempty" json:"facebook,omitempty"`
 
-	// Instagram Instagram profile URL (exact match)
+	// Instagram Filter by the token's instagram link. Matches with or without `https://`, `www.` and a trailing slash.
 	Instagram *string `form:"instagram,omitempty" json:"instagram,omitempty"`
 
-	// Youtube YouTube channel URL (exact match)
+	// Youtube Filter by the token's youtube link. Matches with or without `https://`, `www.` and a trailing slash.
 	Youtube *string `form:"youtube,omitempty" json:"youtube,omitempty"`
 
-	// Reddit Reddit community URL (exact match)
+	// Reddit Filter by the token's reddit link. Matches with or without `https://`, `www.` and a trailing slash.
 	Reddit *string `form:"reddit,omitempty" json:"reddit,omitempty"`
 
-	// Tiktok TikTok profile URL (exact match)
+	// Tiktok Filter by the token's tiktok link. Matches with or without `https://`, `www.` and a trailing slash.
 	Tiktok *string `form:"tiktok,omitempty" json:"tiktok,omitempty"`
 
-	// Github GitHub repository URL (exact match)
+	// Github Filter by the token's github link. Matches with or without `https://`, `www.` and a trailing slash.
 	Github *string `form:"github,omitempty" json:"github,omitempty"`
 
 	// MinFeesTotal Minimum total fees paid (in SOL)
@@ -2447,6 +3151,12 @@ type GetTradesTokenAddressParams struct {
 
 	// HideArb Set to true to keep swap legs involving the requested token. Liquidity actions are retained.
 	HideArb *bool `form:"hideArb,omitempty" json:"hideArb,omitempty"`
+
+	// Currency Adds `price` (per token) to every swap, in this currency at the time of the trade. `sol`: trades against SOL use the swap's own SOL and token amounts; other trades divide the USD price by the SOL/USD rate at that second. `eur`: the USD price divided by the EUR/USD rate at the time of the trade. `price` is `null` when the trade has no USD price or no rate is available. Liquidity rows are unchanged. Invalid values return HTTP 400.
+	Currency *GetTradesTokenAddressParamsCurrency `form:"currency,omitempty" json:"currency,omitempty"`
+
+	// MarketCap Set to true to add `marketCap` to every swap: `price` (in `currency`, USD by default) times the supply of the token's main pool. Uses the current supply, so a token that burned or minted since the trade is valued at today's supply.
+	MarketCap *bool `form:"marketCap,omitempty" json:"marketCap,omitempty"`
 }
 
 // GetTradesTokenAddressParamsEvents defines parameters for GetTradesTokenAddress.
@@ -2454,6 +3164,9 @@ type GetTradesTokenAddressParamsEvents string
 
 // GetTradesTokenAddressParamsSortDirection defines parameters for GetTradesTokenAddress.
 type GetTradesTokenAddressParamsSortDirection string
+
+// GetTradesTokenAddressParamsCurrency defines parameters for GetTradesTokenAddress.
+type GetTradesTokenAddressParamsCurrency string
 
 // GetTradesTokenAddressByWalletOwnerParams defines parameters for GetTradesTokenAddressByWalletOwner.
 type GetTradesTokenAddressByWalletOwnerParams struct {
@@ -2477,6 +3190,12 @@ type GetTradesTokenAddressByWalletOwnerParams struct {
 
 	// HideArb Set to true to keep swap legs involving the requested token. Liquidity actions are retained.
 	HideArb *bool `form:"hideArb,omitempty" json:"hideArb,omitempty"`
+
+	// Currency Adds `price` (per token) to every swap, in this currency at the time of the trade. `sol`: trades against SOL use the swap's own SOL and token amounts; other trades divide the USD price by the SOL/USD rate at that second. `eur`: the USD price divided by the EUR/USD rate at the time of the trade. `price` is `null` when the trade has no USD price or no rate is available. Liquidity rows are unchanged. Invalid values return HTTP 400.
+	Currency *GetTradesTokenAddressByWalletOwnerParamsCurrency `form:"currency,omitempty" json:"currency,omitempty"`
+
+	// MarketCap Set to true to add `marketCap` to every swap: `price` (in `currency`, USD by default) times the supply of the token's main pool. Uses the current supply, so a token that burned or minted since the trade is valued at today's supply.
+	MarketCap *bool `form:"marketCap,omitempty" json:"marketCap,omitempty"`
 }
 
 // GetTradesTokenAddressByWalletOwnerParamsEvents defines parameters for GetTradesTokenAddressByWalletOwner.
@@ -2484,6 +3203,9 @@ type GetTradesTokenAddressByWalletOwnerParamsEvents string
 
 // GetTradesTokenAddressByWalletOwnerParamsSortDirection defines parameters for GetTradesTokenAddressByWalletOwner.
 type GetTradesTokenAddressByWalletOwnerParamsSortDirection string
+
+// GetTradesTokenAddressByWalletOwnerParamsCurrency defines parameters for GetTradesTokenAddressByWalletOwner.
+type GetTradesTokenAddressByWalletOwnerParamsCurrency string
 
 // GetTradesTokenAddressPoolAddressParams defines parameters for GetTradesTokenAddressPoolAddress.
 type GetTradesTokenAddressPoolAddressParams struct {
@@ -2507,6 +3229,12 @@ type GetTradesTokenAddressPoolAddressParams struct {
 
 	// HideArb Set to true to keep swap legs involving the requested token. Liquidity actions are retained.
 	HideArb *bool `form:"hideArb,omitempty" json:"hideArb,omitempty"`
+
+	// Currency Adds `price` (per token) to every swap, in this currency at the time of the trade. `sol`: trades against SOL use the swap's own SOL and token amounts; other trades divide the USD price by the SOL/USD rate at that second. `eur`: the USD price divided by the EUR/USD rate at the time of the trade. `price` is `null` when the trade has no USD price or no rate is available. Liquidity rows are unchanged. Invalid values return HTTP 400.
+	Currency *GetTradesTokenAddressPoolAddressParamsCurrency `form:"currency,omitempty" json:"currency,omitempty"`
+
+	// MarketCap Set to true to add `marketCap` to every swap: `price` (in `currency`, USD by default) times the supply of the token's main pool. Uses the current supply, so a token that burned or minted since the trade is valued at today's supply.
+	MarketCap *bool `form:"marketCap,omitempty" json:"marketCap,omitempty"`
 }
 
 // GetTradesTokenAddressPoolAddressParamsEvents defines parameters for GetTradesTokenAddressPoolAddress.
@@ -2514,6 +3242,9 @@ type GetTradesTokenAddressPoolAddressParamsEvents string
 
 // GetTradesTokenAddressPoolAddressParamsSortDirection defines parameters for GetTradesTokenAddressPoolAddress.
 type GetTradesTokenAddressPoolAddressParamsSortDirection string
+
+// GetTradesTokenAddressPoolAddressParamsCurrency defines parameters for GetTradesTokenAddressPoolAddress.
+type GetTradesTokenAddressPoolAddressParamsCurrency string
 
 // GetTradesTokenAddressPoolAddressOwnerParams defines parameters for GetTradesTokenAddressPoolAddressOwner.
 type GetTradesTokenAddressPoolAddressOwnerParams struct {
@@ -2537,6 +3268,12 @@ type GetTradesTokenAddressPoolAddressOwnerParams struct {
 
 	// HideArb Set to true to keep swap legs involving the requested token. Liquidity actions are retained.
 	HideArb *bool `form:"hideArb,omitempty" json:"hideArb,omitempty"`
+
+	// Currency Adds `price` (per token) to every swap, in this currency at the time of the trade. `sol`: trades against SOL use the swap's own SOL and token amounts; other trades divide the USD price by the SOL/USD rate at that second. `eur`: the USD price divided by the EUR/USD rate at the time of the trade. `price` is `null` when the trade has no USD price or no rate is available. Liquidity rows are unchanged. Invalid values return HTTP 400.
+	Currency *GetTradesTokenAddressPoolAddressOwnerParamsCurrency `form:"currency,omitempty" json:"currency,omitempty"`
+
+	// MarketCap Set to true to add `marketCap` to every swap: `price` (in `currency`, USD by default) times the supply of the token's main pool. Uses the current supply, so a token that burned or minted since the trade is valued at today's supply.
+	MarketCap *bool `form:"marketCap,omitempty" json:"marketCap,omitempty"`
 }
 
 // GetTradesTokenAddressPoolAddressOwnerParamsEvents defines parameters for GetTradesTokenAddressPoolAddressOwner.
@@ -2544,6 +3281,9 @@ type GetTradesTokenAddressPoolAddressOwnerParamsEvents string
 
 // GetTradesTokenAddressPoolAddressOwnerParamsSortDirection defines parameters for GetTradesTokenAddressPoolAddressOwner.
 type GetTradesTokenAddressPoolAddressOwnerParamsSortDirection string
+
+// GetTradesTokenAddressPoolAddressOwnerParamsCurrency defines parameters for GetTradesTokenAddressPoolAddressOwner.
+type GetTradesTokenAddressPoolAddressOwnerParamsCurrency string
 
 // GetWalletOwnerTradesParams defines parameters for GetWalletOwnerTrades.
 type GetWalletOwnerTradesParams struct {
@@ -2988,6 +3728,21 @@ func WithRequestEditorFn(fn RequestEditorFn) ClientOption {
 // The interface specification for the client above.
 type ClientInterface interface {
 
+	// GetAccountAddressTransfers Get Account Transfers
+	//
+	// Transfer history for a wallet: SOL, SPL and Token-2022 transfers in and out, newest first, with token metadata, wallet identities and optional USD prices at the time of each transfer.
+	//
+	// By default, the transfers of transactions with DEX activity (swaps, liquidity adds and removes, pool fee claims) are left out; set `dex=include` or `dex=only` to see them. Filter by token, direction, sender, receiver or counterparty, time or slot range, amount, USD value and transaction outcome, or group transfers by transaction. Timestamps on this endpoint are Unix **seconds**.
+	//
+	// Each parameter has one name. An unknown parameter is a 400 that names the right one (`unknown parameter timeStart; use start`), so a typo never returns an unfiltered page.
+	//
+	// **Paging:** follow `pagination.next` until `hasMore` is `false`. A page holds whole transactions, so it can hold a few transfers more or fewer than `limit`. Filtered requests read a bounded number of transfers per call, so a page can hold fewer than `limit` rows, or none, while `hasMore` is still `true`.
+	//
+	// For live transfers, join the [transfer rooms](/datastream/websockets/transferwallet) on Datastream. See the [transfers guide](/guides/transfers).
+	//
+	// Corresponds with GET /account/{address}/transfers (the `GetAccountAddressTransfers` operationId).
+	GetAccountAddressTransfers(ctx context.Context, address string, params *GetAccountAddressTransfersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetBundlersChartToken Get Bundlers Chart Data
 	//
 	// Gets bundler holding percentage data over time. Returns up to 1000 of the most recent data points
@@ -3417,6 +4172,31 @@ type ClientInterface interface {
 	//
 	// Corresponds with GET /wallet/{owner}/trades (the `GetWalletOwnerTrades` operationId).
 	GetWalletOwnerTrades(ctx context.Context, owner string, params *GetWalletOwnerTradesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+}
+
+// GetAccountAddressTransfers Get Account Transfers
+//
+// Transfer history for a wallet: SOL, SPL and Token-2022 transfers in and out, newest first, with token metadata, wallet identities and optional USD prices at the time of each transfer.
+//
+// By default, the transfers of transactions with DEX activity (swaps, liquidity adds and removes, pool fee claims) are left out; set `dex=include` or `dex=only` to see them. Filter by token, direction, sender, receiver or counterparty, time or slot range, amount, USD value and transaction outcome, or group transfers by transaction. Timestamps on this endpoint are Unix **seconds**.
+//
+// Each parameter has one name. An unknown parameter is a 400 that names the right one (`unknown parameter timeStart; use start`), so a typo never returns an unfiltered page.
+//
+// **Paging:** follow `pagination.next` until `hasMore` is `false`. A page holds whole transactions, so it can hold a few transfers more or fewer than `limit`. Filtered requests read a bounded number of transfers per call, so a page can hold fewer than `limit` rows, or none, while `hasMore` is still `true`.
+//
+// For live transfers, join the [transfer rooms](/datastream/websockets/transferwallet) on Datastream. See the [transfers guide](/guides/transfers).
+//
+// Corresponds with GET /account/{address}/transfers (the `GetAccountAddressTransfers` operationId).
+func (c *Client) GetAccountAddressTransfers(ctx context.Context, address string, params *GetAccountAddressTransfersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAccountAddressTransfersRequest(c.Server, address, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
 }
 
 // GetBundlersChartToken Get Bundlers Chart Data
@@ -4379,6 +5159,343 @@ func (c *Client) GetWalletOwnerTrades(ctx context.Context, owner string, params 
 		return nil, err
 	}
 	return c.Client.Do(req)
+}
+
+// NewGetAccountAddressTransfersRequest constructs an http.Request for the GetAccountAddressTransfers method
+func NewGetAccountAddressTransfersRequest(server string, address string, params *GetAccountAddressTransfersParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "address", address, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/account/%s/transfers", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Limit != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "limit", *params.Limit, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Cursor != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "cursor", *params.Cursor, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.SortOrder != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "sortOrder", *params.SortOrder, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Start != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "start", *params.Start, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.End != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "end", *params.End, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.StartSlot != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "startSlot", *params.StartSlot, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.EndSlot != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "endSlot", *params.EndSlot, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Direction != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "direction", *params.Direction, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Type != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "type", *params.Type, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Mint != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "mint", *params.Mint, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Status != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "status", *params.Status, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Dex != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "dex", *params.Dex, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.From != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "from", *params.From, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.To != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "to", *params.To, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Counterparty != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "counterparty", *params.Counterparty, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.ExcludeFrom != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", false, "excludeFrom", *params.ExcludeFrom, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.ExcludeTo != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", false, "excludeTo", *params.ExcludeTo, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.MinAmount != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "minAmount", *params.MinAmount, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "number", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.MaxAmount != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "maxAmount", *params.MaxAmount, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "number", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.MinValue != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "minValue", *params.MinValue, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "number", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.MaxValue != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "maxValue", *params.MaxValue, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "number", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.HistoricPrices != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "historicPrices", *params.HistoricPrices, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Grouped != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "grouped", *params.Grouped, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.ExcludeZero != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "excludeZero", *params.ExcludeZero, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
 }
 
 // NewGetBundlersChartTokenRequest constructs an http.Request for the GetBundlersChartToken method
@@ -5814,6 +6931,18 @@ func NewGetSearchRequest(server string, params *GetSearchParams) (*http.Request,
 
 		}
 
+		if params.QuoteToken != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "quoteToken", *params.QuoteToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.ShowAllPools != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "showAllPools", *params.ShowAllPools, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
@@ -5862,6 +6991,30 @@ func NewGetSearchRequest(server string, params *GetSearchParams) (*http.Request,
 
 		}
 
+		if params.MinTokenCreatedAt != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "minTokenCreatedAt", *params.MinTokenCreatedAt, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.MaxTokenCreatedAt != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "maxTokenCreatedAt", *params.MaxTokenCreatedAt, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.MinGraduatedAt != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "minGraduatedAt", *params.MinGraduatedAt, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
@@ -5877,6 +7030,30 @@ func NewGetSearchRequest(server string, params *GetSearchParams) (*http.Request,
 		if params.MaxGraduatedAt != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "maxGraduatedAt", *params.MaxGraduatedAt, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.MinMigrationSeconds != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "minMigrationSeconds", *params.MinMigrationSeconds, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "number", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.MaxMigrationSeconds != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "maxMigrationSeconds", *params.MaxMigrationSeconds, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "number", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -6369,6 +7546,30 @@ func NewGetSearchRequest(server string, params *GetSearchParams) (*http.Request,
 		if params.MaxBundlerPercentage != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "maxBundlerPercentage", *params.MaxBundlerPercentage, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "number", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.MinBundlerBalance != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "minBundlerBalance", *params.MinBundlerBalance, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "number", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.MaxBundlerBalance != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "maxBundlerBalance", *params.MaxBundlerBalance, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "number", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -8427,6 +9628,30 @@ func NewGetTradesTokenAddressRequest(server string, tokenAddress string, params 
 
 		}
 
+		if params.Currency != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "currency", *params.Currency, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.MarketCap != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "marketCap", *params.MarketCap, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if encoded := queryValues.Encode(); encoded != "" {
 			rawQueryFragments = append(rawQueryFragments, encoded)
 		}
@@ -8558,6 +9783,30 @@ func NewGetTradesTokenAddressByWalletOwnerRequest(server string, tokenAddress st
 		if params.HideArb != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "hideArb", *params.HideArb, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Currency != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "currency", *params.Currency, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.MarketCap != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "marketCap", *params.MarketCap, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -8707,6 +9956,30 @@ func NewGetTradesTokenAddressPoolAddressRequest(server string, tokenAddress stri
 
 		}
 
+		if params.Currency != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "currency", *params.Currency, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.MarketCap != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "marketCap", *params.MarketCap, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if encoded := queryValues.Encode(); encoded != "" {
 			rawQueryFragments = append(rawQueryFragments, encoded)
 		}
@@ -8845,6 +10118,30 @@ func NewGetTradesTokenAddressPoolAddressOwnerRequest(server string, tokenAddress
 		if params.HideArb != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "hideArb", *params.HideArb, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Currency != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "currency", *params.Currency, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.MarketCap != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "marketCap", *params.MarketCap, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -9115,6 +10412,23 @@ func WithBaseURL(baseURL string) ClientOption {
 
 // ClientWithResponsesInterface is the interface specification for the client with responses above.
 type ClientWithResponsesInterface interface {
+
+	// GetAccountAddressTransfersWithResponse Get Account Transfers
+	//
+	// Transfer history for a wallet: SOL, SPL and Token-2022 transfers in and out, newest first, with token metadata, wallet identities and optional USD prices at the time of each transfer.
+	//
+	// By default, the transfers of transactions with DEX activity (swaps, liquidity adds and removes, pool fee claims) are left out; set `dex=include` or `dex=only` to see them. Filter by token, direction, sender, receiver or counterparty, time or slot range, amount, USD value and transaction outcome, or group transfers by transaction. Timestamps on this endpoint are Unix **seconds**.
+	//
+	// Each parameter has one name. An unknown parameter is a 400 that names the right one (`unknown parameter timeStart; use start`), so a typo never returns an unfiltered page.
+	//
+	// **Paging:** follow `pagination.next` until `hasMore` is `false`. A page holds whole transactions, so it can hold a few transfers more or fewer than `limit`. Filtered requests read a bounded number of transfers per call, so a page can hold fewer than `limit` rows, or none, while `hasMore` is still `true`.
+	//
+	// For live transfers, join the [transfer rooms](/datastream/websockets/transferwallet) on Datastream. See the [transfers guide](/guides/transfers).
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /account/{address}/transfers (the `GetAccountAddressTransfers` operationId).
+	GetAccountAddressTransfersWithResponse(ctx context.Context, address string, params *GetAccountAddressTransfersParams, reqEditors ...RequestEditorFn) (*GetAccountAddressTransfersResponse, error)
 
 	// GetBundlersChartTokenWithResponse Get Bundlers Chart Data
 	//
@@ -9645,6 +10959,68 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with GET /wallet/{owner}/trades (the `GetWalletOwnerTrades` operationId).
 	GetWalletOwnerTradesWithResponse(ctx context.Context, owner string, params *GetWalletOwnerTradesParams, reqEditors ...RequestEditorFn) (*GetWalletOwnerTradesResponse, error)
+}
+
+type GetAccountAddressTransfersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *AccountTransfersResponse
+	// JSON400 the response for an HTTP 400 `application/json` response
+	JSON400 *ErrorResponse
+	// JSON502 the response for an HTTP 502 `application/json` response
+	JSON502 *ErrorResponse
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *ErrorResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetAccountAddressTransfersResponse) GetJSON200() *AccountTransfersResponse {
+	return r.JSON200
+}
+
+// GetJSON400 returns the response for an HTTP 400 `application/json` response
+func (r GetAccountAddressTransfersResponse) GetJSON400() *ErrorResponse {
+	return r.JSON400
+}
+
+// GetJSON502 returns the response for an HTTP 502 `application/json` response
+func (r GetAccountAddressTransfersResponse) GetJSON502() *ErrorResponse {
+	return r.JSON502
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r GetAccountAddressTransfersResponse) GetJSON503() *ErrorResponse {
+	return r.JSON503
+}
+
+// GetBody returns the raw response body bytes
+func (r GetAccountAddressTransfersResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetAccountAddressTransfersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetAccountAddressTransfersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetAccountAddressTransfersResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
 }
 
 type GetBundlersChartTokenResponse struct {
@@ -11858,6 +13234,29 @@ func (r GetWalletOwnerTradesResponse) ContentType() string {
 	return ""
 }
 
+// GetAccountAddressTransfersWithResponse Get Account Transfers
+//
+// Transfer history for a wallet: SOL, SPL and Token-2022 transfers in and out, newest first, with token metadata, wallet identities and optional USD prices at the time of each transfer.
+//
+// By default, the transfers of transactions with DEX activity (swaps, liquidity adds and removes, pool fee claims) are left out; set `dex=include` or `dex=only` to see them. Filter by token, direction, sender, receiver or counterparty, time or slot range, amount, USD value and transaction outcome, or group transfers by transaction. Timestamps on this endpoint are Unix **seconds**.
+//
+// Each parameter has one name. An unknown parameter is a 400 that names the right one (`unknown parameter timeStart; use start`), so a typo never returns an unfiltered page.
+//
+// **Paging:** follow `pagination.next` until `hasMore` is `false`. A page holds whole transactions, so it can hold a few transfers more or fewer than `limit`. Filtered requests read a bounded number of transfers per call, so a page can hold fewer than `limit` rows, or none, while `hasMore` is still `true`.
+//
+// For live transfers, join the [transfer rooms](/datastream/websockets/transferwallet) on Datastream. See the [transfers guide](/guides/transfers).
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /account/{address}/transfers (the `GetAccountAddressTransfers` operationId).
+func (c *ClientWithResponses) GetAccountAddressTransfersWithResponse(ctx context.Context, address string, params *GetAccountAddressTransfersParams, reqEditors ...RequestEditorFn) (*GetAccountAddressTransfersResponse, error) {
+	rsp, err := c.GetAccountAddressTransfers(ctx, address, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetAccountAddressTransfersResponse(rsp)
+}
+
 // GetBundlersChartTokenWithResponse Get Bundlers Chart Data
 //
 // Gets bundler holding percentage data over time. Returns up to 1000 of the most recent data points
@@ -12710,6 +14109,53 @@ func (c *ClientWithResponses) GetWalletOwnerTradesWithResponse(ctx context.Conte
 		return nil, err
 	}
 	return ParseGetWalletOwnerTradesResponse(rsp)
+}
+
+// ParseGetAccountAddressTransfersResponse parses an HTTP response from a GetAccountAddressTransfersWithResponse call
+func ParseGetAccountAddressTransfersResponse(rsp *http.Response) (*GetAccountAddressTransfersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetAccountAddressTransfersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AccountTransfersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 502:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON502 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	return response, nil
 }
 
 // ParseGetBundlersChartTokenResponse parses an HTTP response from a GetBundlersChartTokenWithResponse call

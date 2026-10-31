@@ -2,6 +2,15 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.2.0, 2026-10-31
+
+- Added `GetAccountAddressTransfers` and `GetAccountAddressTransfersWithResponse` for account transfer history, with `GetAccountAddressTransfersParams` (filters for direction, status, type, DEX and sort order), `NewGetAccountAddressTransfersRequest` and `ParseGetAccountAddressTransfersResponse`.
+- Added the response models `AccountTransfersResponse`, `AccountTransfer`, `TransferTransaction`, `TransferToken`, `TransferTokenTotal` and `TransferParty`, with enums and `Valid` methods for direction, status and type.
+- Added the methods `GetAccountAddressTransfers` to `ClientInterface` and `GetAccountAddressTransfersWithResponse` to `ClientWithResponsesInterface`. Custom implementations of these interfaces must add them.
+- Added `Currency` (`usd`, `eur`, `sol`) and `MarketCap` parameters to the four token trade endpoints, `Currency` to `TokenTradesResponse`, and `MarketCap` and `Price` to `TokenTrade`.
+- Added search parameters `MinBundlerBalance`, `MaxBundlerBalance`, `MinMigrationSeconds`, `MaxMigrationSeconds`, `MinTokenCreatedAt`, `MaxTokenCreatedAt` and `QuoteToken` to `GetSearchParams`, the sort value `GetSearchParamsSortByMigrationSeconds`, and `MigrationSeconds` to `SearchToken`.
+- Added chart intervals `30s`, `3h` and `5h` to the `GetChartTokenParams` and `GetChartTokenPoolParams` type enums.
+
 ## v0.1.3, 2026-10-28
 
 - Updated Semgrep in the development image to 1.182.1 and refreshed its locked dependencies. certifi 2026.10.23 drops the emSign root CAs whose intermediate keys were compromised (GHSA-6q48-6c7w-9gw2).
