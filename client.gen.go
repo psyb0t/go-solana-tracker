@@ -2488,9 +2488,6 @@ type GetChartTokenParams struct {
 	// DynamicPools Dynamically picks the main pool over time to create the best and most consistent chart
 	DynamicPools *bool `form:"dynamicPools,omitempty" json:"dynamicPools,omitempty"`
 
-	// Timezone Timezone for chart data (abbreviations or IANA identifiers)
-	Timezone *string `form:"timezone,omitempty" json:"timezone,omitempty"`
-
 	// FastCache Enables a live cache on the chart API for even faster response times
 	FastCache *bool `form:"fastCache,omitempty" json:"fastCache,omitempty"`
 }
@@ -2520,9 +2517,6 @@ type GetChartTokenPoolParams struct {
 
 	// RemoveOutliers Set to false to disable outlier removal
 	RemoveOutliers *bool `form:"removeOutliers,omitempty" json:"removeOutliers,omitempty"`
-
-	// Timezone Timezone for chart data (abbreviations or IANA identifiers)
-	Timezone *string `form:"timezone,omitempty" json:"timezone,omitempty"`
 
 	// FastCache Enables a live cache on the chart API for even faster response times
 	FastCache *bool `form:"fastCache,omitempty" json:"fastCache,omitempty"`
@@ -5702,18 +5696,6 @@ func NewGetChartTokenRequest(server string, token string, params *GetChartTokenP
 
 		}
 
-		if params.Timezone != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "timezone", *params.Timezone, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else {
-				for _, qp := range strings.Split(queryFrag, "&") {
-					rawQueryFragments = append(rawQueryFragments, qp)
-				}
-			}
-
-		}
-
 		if params.FastCache != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fastCache", *params.FastCache, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
@@ -5845,18 +5827,6 @@ func NewGetChartTokenPoolRequest(server string, token string, pool string, param
 		if params.RemoveOutliers != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "removeOutliers", *params.RemoveOutliers, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
-				return nil, err
-			} else {
-				for _, qp := range strings.Split(queryFrag, "&") {
-					rawQueryFragments = append(rawQueryFragments, qp)
-				}
-			}
-
-		}
-
-		if params.Timezone != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "timezone", *params.Timezone, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {

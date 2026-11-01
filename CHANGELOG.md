@@ -2,6 +2,10 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.3.0, 2026-11-01
+
+- Removed the `Timezone` field from `GetChartTokenParams` and `GetChartTokenPoolParams`. `NewGetChartTokenRequest` and `NewGetChartTokenPoolRequest` no longer send the `timezone` query parameter. Callers that set `Timezone` must delete that line; the API no longer takes it in the regenerated spec.
+
 ## v0.2.0, 2026-10-31
 
 - Added `GetAccountAddressTransfers` and `GetAccountAddressTransfersWithResponse` for account transfer history, with `GetAccountAddressTransfersParams` (filters for direction, status, type, DEX and sort order), `NewGetAccountAddressTransfersRequest` and `ParseGetAccountAddressTransfersResponse`.
