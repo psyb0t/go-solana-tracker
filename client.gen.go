@@ -2063,7 +2063,7 @@ type TokenTradesResponse struct {
 	Currency    *TokenTradesResponseCurrency `json:"currency,omitempty"`
 	HasNextPage *bool                        `json:"hasNextPage,omitempty"`
 
-	// NextCursor Timestamp for trades-only requests; opaque string for events=all/liquidity. Pass back unchanged with the same filters. Null at the end.
+	// NextCursor A number for trades-only requests, a string for events=all/liquidity. Pass back unchanged with the same filters. Null at the end.
 	NextCursor    *TokenTradesResponse_NextCursor    `json:"nextCursor,omitempty"`
 	SortDirection *TokenTradesResponseSortDirection  `json:"sortDirection,omitempty"`
 	Trades        *[]TokenTradesResponse_Trades_Item `json:"trades,omitempty"`
@@ -2078,7 +2078,7 @@ type TokenTradesResponseNextCursor0 = int
 // TokenTradesResponseNextCursor1 defines model for TokenTradesResponse.NextCursor.1.
 type TokenTradesResponseNextCursor1 = string
 
-// TokenTradesResponse_NextCursor Timestamp for trades-only requests; opaque string for events=all/liquidity. Pass back unchanged with the same filters. Null at the end.
+// TokenTradesResponse_NextCursor A number for trades-only requests, a string for events=all/liquidity. Pass back unchanged with the same filters. Null at the end.
 type TokenTradesResponse_NextCursor struct {
 	union json.RawMessage
 }
@@ -2160,9 +2160,11 @@ type Trade struct {
 
 // TradesResponse defines model for TradesResponse.
 type TradesResponse struct {
-	HasNextPage *bool    `json:"hasNextPage,omitempty"`
-	NextCursor  *int     `json:"nextCursor,omitempty"`
-	Trades      *[]Trade `json:"trades,omitempty"`
+	HasNextPage *bool `json:"hasNextPage,omitempty"`
+
+	// NextCursor Pass back unchanged as `cursor`. Null when there is no next page.
+	NextCursor *string  `json:"nextCursor,omitempty"`
+	Trades     *[]Trade `json:"trades,omitempty"`
 }
 
 // TransferParty defines model for TransferParty.
@@ -2467,7 +2469,7 @@ type GetBundlersChartTokenParams struct {
 
 // GetChartTokenParams defines parameters for GetChartToken.
 type GetChartTokenParams struct {
-	// Type Candle interval. `5h` candles start at 00:00, 05:00, 10:00, 15:00 and 20:00 UTC.
+	// Type Candle interval. Hour and longer candles start at midnight UTC, or at midnight in `timezone` when set: `5h` candles start at 00:00, 05:00, 10:00, 15:00 and 20:00.
 	Type *GetChartTokenParamsType `form:"type,omitempty" json:"type,omitempty"`
 
 	// TimeFrom Start time (Unix timestamp in seconds)
@@ -2488,6 +2490,9 @@ type GetChartTokenParams struct {
 	// DynamicPools Dynamically picks the main pool over time to create the best and most consistent chart
 	DynamicPools *bool `form:"dynamicPools,omitempty" json:"dynamicPools,omitempty"`
 
+	// Timezone Start hour and longer candles at this time zone's midnight instead of UTC. An IANA name such as `America/New_York` or an abbreviation such as `EST`, `CET` or `JST`. Candle times stay UTC.
+	Timezone *string `form:"timezone,omitempty" json:"timezone,omitempty"`
+
 	// FastCache Enables a live cache on the chart API for even faster response times
 	FastCache *bool `form:"fastCache,omitempty" json:"fastCache,omitempty"`
 }
@@ -2500,7 +2505,7 @@ type GetChartTokenParamsCurrency string
 
 // GetChartTokenPoolParams defines parameters for GetChartTokenPool.
 type GetChartTokenPoolParams struct {
-	// Type Candle interval. `5h` candles start at 00:00, 05:00, 10:00, 15:00 and 20:00 UTC.
+	// Type Candle interval. Hour and longer candles start at midnight UTC, or at midnight in `timezone` when set: `5h` candles start at 00:00, 05:00, 10:00, 15:00 and 20:00.
 	Type *GetChartTokenPoolParamsType `form:"type,omitempty" json:"type,omitempty"`
 
 	// TimeFrom Start time (Unix timestamp in seconds)
@@ -2517,6 +2522,9 @@ type GetChartTokenPoolParams struct {
 
 	// RemoveOutliers Set to false to disable outlier removal
 	RemoveOutliers *bool `form:"removeOutliers,omitempty" json:"removeOutliers,omitempty"`
+
+	// Timezone Start hour and longer candles at this time zone's midnight instead of UTC. An IANA name such as `America/New_York` or an abbreviation such as `EST`, `CET` or `JST`. Candle times stay UTC.
+	Timezone *string `form:"timezone,omitempty" json:"timezone,omitempty"`
 
 	// FastCache Enables a live cache on the chart API for even faster response times
 	FastCache *bool `form:"fastCache,omitempty" json:"fastCache,omitempty"`
@@ -3131,7 +3139,7 @@ type GetTradesTokenAddressParams struct {
 	// Enrich Pass identity to attach wallet identity to every returned trade or liquidity event, using the same enrichment as token holders. Includes available KOL profiles, tags, trading platforms and profiles, developer/pool labels, curated labels, and SNS names. Unknown wallets return identity: null. Omit for unchanged responses and no identity lookups. all and * also enable identity; pool and developer are compatibility aliases.
 	Enrich *string `form:"enrich,omitempty" json:"enrich,omitempty"`
 
-	// Cursor Pass nextCursor back unchanged. Default trades use a timestamp; events=all and events=liquidity return an opaque string scoped to the token, pool, wallet, events and sortDirection. Keep these filters unchanged between pages.
+	// Cursor `nextCursor` from the previous page, unchanged. Keep the other filters the same between pages.
 	Cursor *string `form:"cursor,omitempty" json:"cursor,omitempty"`
 
 	// Limit Number of results, default 250, maximum 500. With events=all or events=liquidity the range is 1, 500.
@@ -3170,7 +3178,7 @@ type GetTradesTokenAddressByWalletOwnerParams struct {
 	// Enrich Pass identity to attach wallet identity to every returned trade or liquidity event, using the same enrichment as token holders. Includes available KOL profiles, tags, trading platforms and profiles, developer/pool labels, curated labels, and SNS names. Unknown wallets return identity: null. Omit for unchanged responses and no identity lookups. all and * also enable identity; pool and developer are compatibility aliases.
 	Enrich *string `form:"enrich,omitempty" json:"enrich,omitempty"`
 
-	// Cursor Pass nextCursor back unchanged. Default trades use a timestamp; events=all and events=liquidity return an opaque string scoped to the token, pool, wallet, events and sortDirection. Keep these filters unchanged between pages.
+	// Cursor `nextCursor` from the previous page, unchanged. Keep the other filters the same between pages.
 	Cursor *string `form:"cursor,omitempty" json:"cursor,omitempty"`
 
 	// Limit Number of results, default 250, maximum 500. With events=all or events=liquidity the range is 1, 500.
@@ -3209,7 +3217,7 @@ type GetTradesTokenAddressPoolAddressParams struct {
 	// Enrich Pass identity to attach wallet identity to every returned trade or liquidity event, using the same enrichment as token holders. Includes available KOL profiles, tags, trading platforms and profiles, developer/pool labels, curated labels, and SNS names. Unknown wallets return identity: null. Omit for unchanged responses and no identity lookups. all and * also enable identity; pool and developer are compatibility aliases.
 	Enrich *string `form:"enrich,omitempty" json:"enrich,omitempty"`
 
-	// Cursor Pass nextCursor back unchanged. Default trades use a timestamp; events=all and events=liquidity return an opaque string scoped to the token, pool, wallet, events and sortDirection. Keep these filters unchanged between pages.
+	// Cursor `nextCursor` from the previous page, unchanged. Keep the other filters the same between pages.
 	Cursor *string `form:"cursor,omitempty" json:"cursor,omitempty"`
 
 	// Limit Number of results, default 250, maximum 500. With events=all or events=liquidity the range is 1, 500.
@@ -3248,7 +3256,7 @@ type GetTradesTokenAddressPoolAddressOwnerParams struct {
 	// Enrich Pass identity to attach wallet identity to every returned trade or liquidity event, using the same enrichment as token holders. Includes available KOL profiles, tags, trading platforms and profiles, developer/pool labels, curated labels, and SNS names. Unknown wallets return identity: null. Omit for unchanged responses and no identity lookups. all and * also enable identity; pool and developer are compatibility aliases.
 	Enrich *string `form:"enrich,omitempty" json:"enrich,omitempty"`
 
-	// Cursor Pass nextCursor back unchanged. Default trades use a timestamp; events=all and events=liquidity return an opaque string scoped to the token, pool, wallet, events and sortDirection. Keep these filters unchanged between pages.
+	// Cursor `nextCursor` from the previous page, unchanged. Keep the other filters the same between pages.
 	Cursor *string `form:"cursor,omitempty" json:"cursor,omitempty"`
 
 	// Limit Number of results, default 250, maximum 500. With events=all or events=liquidity the range is 1, 500.
@@ -4094,38 +4102,54 @@ type ClientInterface interface {
 
 	// GetTradesTokenAddress Get Token Trades
 	//
+	// **Deprecated.** Switch to [`GET /v2/trades/{token}`](/data-api/trades-v2/token/get-token-trades) instead. With the SDK, use `client.getTokenTradesV2(token)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
+	//
 	// Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 	//
 	// Liquidity rows use `type: add_liquidity | remove_liquidity`, a single `pool`, and exact string amounts in `tokens[]`; they do not contain swap prices, volume or PnL. See the [liquidity guide](/guides/liquidity) for REST examples, pagination and live rooms.
 	//
 	// Corresponds with GET /trades/{tokenAddress} (the `GetTradesTokenAddress` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetTradesTokenAddress(ctx context.Context, tokenAddress string, params *GetTradesTokenAddressParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetTradesTokenAddressByWalletOwner Get User-Specific Token Trades
+	//
+	// **Deprecated.** Switch to [`GET /v2/trades/{token}/by-wallet/{wallet}`](/data-api/trades-v2/token/get-wallet-token-trades) instead. With the SDK, use `client.getWalletTokenTradesV2(token, wallet)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
 	//
 	// Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 	//
 	// Liquidity rows use `type: add_liquidity | remove_liquidity`, a single `pool`, and exact string amounts in `tokens[]`; they do not contain swap prices, volume or PnL. See the [liquidity guide](/guides/liquidity) for REST examples, pagination and live rooms.
 	//
 	// Corresponds with GET /trades/{tokenAddress}/by-wallet/{owner} (the `GetTradesTokenAddressByWalletOwner` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetTradesTokenAddressByWalletOwner(ctx context.Context, tokenAddress string, owner string, params *GetTradesTokenAddressByWalletOwnerParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetTradesTokenAddressPoolAddress Get Pool-Specific Trades
+	//
+	// **Deprecated.** Switch to [`GET /v2/trades/{token}/{pool}`](/data-api/trades-v2/token/get-pool-trades) instead. With the SDK, use `client.getPoolTradesV2(token, pool)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
 	//
 	// Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 	//
 	// Liquidity rows use `type: add_liquidity | remove_liquidity`, a single `pool`, and exact string amounts in `tokens[]`; they do not contain swap prices, volume or PnL. See the [liquidity guide](/guides/liquidity) for REST examples, pagination and live rooms.
 	//
 	// Corresponds with GET /trades/{tokenAddress}/{poolAddress} (the `GetTradesTokenAddressPoolAddress` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetTradesTokenAddressPoolAddress(ctx context.Context, tokenAddress string, poolAddress string, params *GetTradesTokenAddressPoolAddressParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetTradesTokenAddressPoolAddressOwner Get User-Specific Pool Trades
+	//
+	// **Deprecated.** Switch to [`GET /v2/trades/{token}/{pool}/{wallet}`](/data-api/trades-v2/token/get-wallet-pool-trades) instead. With the SDK, use `client.getWalletPoolTradesV2(token, pool, wallet)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
 	//
 	// Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 	//
 	// Liquidity rows use `type: add_liquidity | remove_liquidity`, a single `pool`, and exact string amounts in `tokens[]`; they do not contain swap prices, volume or PnL. See the [liquidity guide](/guides/liquidity) for REST examples, pagination and live rooms.
 	//
 	// Corresponds with GET /trades/{tokenAddress}/{poolAddress}/{owner} (the `GetTradesTokenAddressPoolAddressOwner` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetTradesTokenAddressPoolAddressOwner(ctx context.Context, tokenAddress string, poolAddress string, owner string, params *GetTradesTokenAddressPoolAddressOwnerParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetWalletOwner Get Wallet Tokens
@@ -4162,9 +4186,13 @@ type ClientInterface interface {
 
 	// GetWalletOwnerTrades Get Wallet Trades
 	//
-	// Gets the latest trades of a wallet.
+	// **Deprecated.** Switch to [`GET /v2/wallet/{wallet}/trades`](/data-api/trades-v2/wallet/get-wallet-trades) instead. With the SDK, use `client.getWalletTradesV2(wallet)`.
+	//
+	// Gets the latest trades of a wallet
 	//
 	// Corresponds with GET /wallet/{owner}/trades (the `GetWalletOwnerTrades` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetWalletOwnerTrades(ctx context.Context, owner string, params *GetWalletOwnerTradesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
@@ -4992,11 +5020,14 @@ func (c *Client) GetTopTradersToken(ctx context.Context, token string, reqEditor
 
 // GetTradesTokenAddress Get Token Trades
 //
+// **Deprecated.** Switch to [`GET /v2/trades/{token}`](/data-api/trades-v2/token/get-token-trades) instead. With the SDK, use `client.getTokenTradesV2(token)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
+//
 // Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 //
 // Liquidity rows use `type: add_liquidity | remove_liquidity`, a single `pool`, and exact string amounts in `tokens[]`; they do not contain swap prices, volume or PnL. See the [liquidity guide](/guides/liquidity) for REST examples, pagination and live rooms.
 //
 // Corresponds with GET /trades/{tokenAddress} (the `GetTradesTokenAddress` operationId).
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *Client) GetTradesTokenAddress(ctx context.Context, tokenAddress string, params *GetTradesTokenAddressParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetTradesTokenAddressRequest(c.Server, tokenAddress, params)
 	if err != nil {
@@ -5011,11 +5042,14 @@ func (c *Client) GetTradesTokenAddress(ctx context.Context, tokenAddress string,
 
 // GetTradesTokenAddressByWalletOwner Get User-Specific Token Trades
 //
+// **Deprecated.** Switch to [`GET /v2/trades/{token}/by-wallet/{wallet}`](/data-api/trades-v2/token/get-wallet-token-trades) instead. With the SDK, use `client.getWalletTokenTradesV2(token, wallet)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
+//
 // Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 //
 // Liquidity rows use `type: add_liquidity | remove_liquidity`, a single `pool`, and exact string amounts in `tokens[]`; they do not contain swap prices, volume or PnL. See the [liquidity guide](/guides/liquidity) for REST examples, pagination and live rooms.
 //
 // Corresponds with GET /trades/{tokenAddress}/by-wallet/{owner} (the `GetTradesTokenAddressByWalletOwner` operationId).
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *Client) GetTradesTokenAddressByWalletOwner(ctx context.Context, tokenAddress string, owner string, params *GetTradesTokenAddressByWalletOwnerParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetTradesTokenAddressByWalletOwnerRequest(c.Server, tokenAddress, owner, params)
 	if err != nil {
@@ -5030,11 +5064,14 @@ func (c *Client) GetTradesTokenAddressByWalletOwner(ctx context.Context, tokenAd
 
 // GetTradesTokenAddressPoolAddress Get Pool-Specific Trades
 //
+// **Deprecated.** Switch to [`GET /v2/trades/{token}/{pool}`](/data-api/trades-v2/token/get-pool-trades) instead. With the SDK, use `client.getPoolTradesV2(token, pool)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
+//
 // Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 //
 // Liquidity rows use `type: add_liquidity | remove_liquidity`, a single `pool`, and exact string amounts in `tokens[]`; they do not contain swap prices, volume or PnL. See the [liquidity guide](/guides/liquidity) for REST examples, pagination and live rooms.
 //
 // Corresponds with GET /trades/{tokenAddress}/{poolAddress} (the `GetTradesTokenAddressPoolAddress` operationId).
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *Client) GetTradesTokenAddressPoolAddress(ctx context.Context, tokenAddress string, poolAddress string, params *GetTradesTokenAddressPoolAddressParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetTradesTokenAddressPoolAddressRequest(c.Server, tokenAddress, poolAddress, params)
 	if err != nil {
@@ -5049,11 +5086,14 @@ func (c *Client) GetTradesTokenAddressPoolAddress(ctx context.Context, tokenAddr
 
 // GetTradesTokenAddressPoolAddressOwner Get User-Specific Pool Trades
 //
+// **Deprecated.** Switch to [`GET /v2/trades/{token}/{pool}/{wallet}`](/data-api/trades-v2/token/get-wallet-pool-trades) instead. With the SDK, use `client.getWalletPoolTradesV2(token, pool, wallet)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
+//
 // Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 //
 // Liquidity rows use `type: add_liquidity | remove_liquidity`, a single `pool`, and exact string amounts in `tokens[]`; they do not contain swap prices, volume or PnL. See the [liquidity guide](/guides/liquidity) for REST examples, pagination and live rooms.
 //
 // Corresponds with GET /trades/{tokenAddress}/{poolAddress}/{owner} (the `GetTradesTokenAddressPoolAddressOwner` operationId).
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *Client) GetTradesTokenAddressPoolAddressOwner(ctx context.Context, tokenAddress string, poolAddress string, owner string, params *GetTradesTokenAddressPoolAddressOwnerParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetTradesTokenAddressPoolAddressOwnerRequest(c.Server, tokenAddress, poolAddress, owner, params)
 	if err != nil {
@@ -5140,9 +5180,12 @@ func (c *Client) GetWalletOwnerPagePage(ctx context.Context, owner string, page 
 
 // GetWalletOwnerTrades Get Wallet Trades
 //
-// Gets the latest trades of a wallet.
+// **Deprecated.** Switch to [`GET /v2/wallet/{wallet}/trades`](/data-api/trades-v2/wallet/get-wallet-trades) instead. With the SDK, use `client.getWalletTradesV2(wallet)`.
+//
+// # Gets the latest trades of a wallet
 //
 // Corresponds with GET /wallet/{owner}/trades (the `GetWalletOwnerTrades` operationId).
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *Client) GetWalletOwnerTrades(ctx context.Context, owner string, params *GetWalletOwnerTradesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetWalletOwnerTradesRequest(c.Server, owner, params)
 	if err != nil {
@@ -5696,6 +5739,18 @@ func NewGetChartTokenRequest(server string, token string, params *GetChartTokenP
 
 		}
 
+		if params.Timezone != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "timezone", *params.Timezone, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
 		if params.FastCache != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fastCache", *params.FastCache, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
@@ -5827,6 +5882,18 @@ func NewGetChartTokenPoolRequest(server string, token string, pool string, param
 		if params.RemoveOutliers != nil {
 
 			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "removeOutliers", *params.RemoveOutliers, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Timezone != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "timezone", *params.Timezone, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
 				return nil, err
 			} else {
 				for _, qp := range strings.Split(queryFrag, "&") {
@@ -10839,6 +10906,8 @@ type ClientWithResponsesInterface interface {
 
 	// GetTradesTokenAddressWithResponse Get Token Trades
 	//
+	// **Deprecated.** Switch to [`GET /v2/trades/{token}`](/data-api/trades-v2/token/get-token-trades) instead. With the SDK, use `client.getTokenTradesV2(token)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
+	//
 	// Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 	//
 	// Liquidity rows use `type: add_liquidity | remove_liquidity`, a single `pool`, and exact string amounts in `tokens[]`; they do not contain swap prices, volume or PnL. See the [liquidity guide](/guides/liquidity) for REST examples, pagination and live rooms.
@@ -10846,9 +10915,13 @@ type ClientWithResponsesInterface interface {
 	// Returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with GET /trades/{tokenAddress} (the `GetTradesTokenAddress` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetTradesTokenAddressWithResponse(ctx context.Context, tokenAddress string, params *GetTradesTokenAddressParams, reqEditors ...RequestEditorFn) (*GetTradesTokenAddressResponse, error)
 
 	// GetTradesTokenAddressByWalletOwnerWithResponse Get User-Specific Token Trades
+	//
+	// **Deprecated.** Switch to [`GET /v2/trades/{token}/by-wallet/{wallet}`](/data-api/trades-v2/token/get-wallet-token-trades) instead. With the SDK, use `client.getWalletTokenTradesV2(token, wallet)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
 	//
 	// Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 	//
@@ -10857,9 +10930,13 @@ type ClientWithResponsesInterface interface {
 	// Returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with GET /trades/{tokenAddress}/by-wallet/{owner} (the `GetTradesTokenAddressByWalletOwner` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetTradesTokenAddressByWalletOwnerWithResponse(ctx context.Context, tokenAddress string, owner string, params *GetTradesTokenAddressByWalletOwnerParams, reqEditors ...RequestEditorFn) (*GetTradesTokenAddressByWalletOwnerResponse, error)
 
 	// GetTradesTokenAddressPoolAddressWithResponse Get Pool-Specific Trades
+	//
+	// **Deprecated.** Switch to [`GET /v2/trades/{token}/{pool}`](/data-api/trades-v2/token/get-pool-trades) instead. With the SDK, use `client.getPoolTradesV2(token, pool)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
 	//
 	// Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 	//
@@ -10868,9 +10945,13 @@ type ClientWithResponsesInterface interface {
 	// Returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with GET /trades/{tokenAddress}/{poolAddress} (the `GetTradesTokenAddressPoolAddress` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetTradesTokenAddressPoolAddressWithResponse(ctx context.Context, tokenAddress string, poolAddress string, params *GetTradesTokenAddressPoolAddressParams, reqEditors ...RequestEditorFn) (*GetTradesTokenAddressPoolAddressResponse, error)
 
 	// GetTradesTokenAddressPoolAddressOwnerWithResponse Get User-Specific Pool Trades
+	//
+	// **Deprecated.** Switch to [`GET /v2/trades/{token}/{pool}/{wallet}`](/data-api/trades-v2/token/get-wallet-pool-trades) instead. With the SDK, use `client.getWalletPoolTradesV2(token, pool, wallet)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
 	//
 	// Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 	//
@@ -10879,6 +10960,8 @@ type ClientWithResponsesInterface interface {
 	// Returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with GET /trades/{tokenAddress}/{poolAddress}/{owner} (the `GetTradesTokenAddressPoolAddressOwner` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetTradesTokenAddressPoolAddressOwnerWithResponse(ctx context.Context, tokenAddress string, poolAddress string, owner string, params *GetTradesTokenAddressPoolAddressOwnerParams, reqEditors ...RequestEditorFn) (*GetTradesTokenAddressPoolAddressOwnerResponse, error)
 
 	// GetWalletOwnerWithResponse Get Wallet Tokens
@@ -10923,11 +11006,15 @@ type ClientWithResponsesInterface interface {
 
 	// GetWalletOwnerTradesWithResponse Get Wallet Trades
 	//
-	// Gets the latest trades of a wallet.
+	// **Deprecated.** Switch to [`GET /v2/wallet/{wallet}/trades`](/data-api/trades-v2/wallet/get-wallet-trades) instead. With the SDK, use `client.getWalletTradesV2(wallet)`.
+	//
+	// Gets the latest trades of a wallet
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with GET /wallet/{owner}/trades (the `GetWalletOwnerTrades` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetWalletOwnerTradesWithResponse(ctx context.Context, owner string, params *GetWalletOwnerTradesParams, reqEditors ...RequestEditorFn) (*GetWalletOwnerTradesResponse, error)
 }
 
@@ -12794,6 +12881,11 @@ func (r GetTopTradersTokenResponse) ContentType() string {
 	return ""
 }
 
+// GetTradesTokenAddressResponse503Headers the declared response headers of an HTTP 503 response for GetTradesTokenAddress
+type GetTradesTokenAddressResponse503Headers struct {
+	RetryAfter *int
+}
+
 type GetTradesTokenAddressResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -12801,6 +12893,10 @@ type GetTradesTokenAddressResponse struct {
 	JSON200 *TokenTradesResponse
 	// JSON400 the response for an HTTP 400 `application/json` response
 	JSON400 *ErrorResponse
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *ErrorResponse
+	// Headers503 the parsed response headers for an HTTP 503 response
+	Headers503 *GetTradesTokenAddressResponse503Headers
 }
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
@@ -12811,6 +12907,11 @@ func (r GetTradesTokenAddressResponse) GetJSON200() *TokenTradesResponse {
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
 func (r GetTradesTokenAddressResponse) GetJSON400() *ErrorResponse {
 	return r.JSON400
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r GetTradesTokenAddressResponse) GetJSON503() *ErrorResponse {
+	return r.JSON503
 }
 
 // GetBody returns the raw response body bytes
@@ -12842,6 +12943,11 @@ func (r GetTradesTokenAddressResponse) ContentType() string {
 	return ""
 }
 
+// GetTradesTokenAddressByWalletOwnerResponse503Headers the declared response headers of an HTTP 503 response for GetTradesTokenAddressByWalletOwner
+type GetTradesTokenAddressByWalletOwnerResponse503Headers struct {
+	RetryAfter *int
+}
+
 type GetTradesTokenAddressByWalletOwnerResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -12849,6 +12955,10 @@ type GetTradesTokenAddressByWalletOwnerResponse struct {
 	JSON200 *TokenTradesResponse
 	// JSON400 the response for an HTTP 400 `application/json` response
 	JSON400 *ErrorResponse
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *ErrorResponse
+	// Headers503 the parsed response headers for an HTTP 503 response
+	Headers503 *GetTradesTokenAddressByWalletOwnerResponse503Headers
 }
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
@@ -12859,6 +12969,11 @@ func (r GetTradesTokenAddressByWalletOwnerResponse) GetJSON200() *TokenTradesRes
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
 func (r GetTradesTokenAddressByWalletOwnerResponse) GetJSON400() *ErrorResponse {
 	return r.JSON400
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r GetTradesTokenAddressByWalletOwnerResponse) GetJSON503() *ErrorResponse {
+	return r.JSON503
 }
 
 // GetBody returns the raw response body bytes
@@ -12890,6 +13005,11 @@ func (r GetTradesTokenAddressByWalletOwnerResponse) ContentType() string {
 	return ""
 }
 
+// GetTradesTokenAddressPoolAddressResponse503Headers the declared response headers of an HTTP 503 response for GetTradesTokenAddressPoolAddress
+type GetTradesTokenAddressPoolAddressResponse503Headers struct {
+	RetryAfter *int
+}
+
 type GetTradesTokenAddressPoolAddressResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -12897,6 +13017,10 @@ type GetTradesTokenAddressPoolAddressResponse struct {
 	JSON200 *TokenTradesResponse
 	// JSON400 the response for an HTTP 400 `application/json` response
 	JSON400 *ErrorResponse
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *ErrorResponse
+	// Headers503 the parsed response headers for an HTTP 503 response
+	Headers503 *GetTradesTokenAddressPoolAddressResponse503Headers
 }
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
@@ -12907,6 +13031,11 @@ func (r GetTradesTokenAddressPoolAddressResponse) GetJSON200() *TokenTradesRespo
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
 func (r GetTradesTokenAddressPoolAddressResponse) GetJSON400() *ErrorResponse {
 	return r.JSON400
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r GetTradesTokenAddressPoolAddressResponse) GetJSON503() *ErrorResponse {
+	return r.JSON503
 }
 
 // GetBody returns the raw response body bytes
@@ -12938,6 +13067,11 @@ func (r GetTradesTokenAddressPoolAddressResponse) ContentType() string {
 	return ""
 }
 
+// GetTradesTokenAddressPoolAddressOwnerResponse503Headers the declared response headers of an HTTP 503 response for GetTradesTokenAddressPoolAddressOwner
+type GetTradesTokenAddressPoolAddressOwnerResponse503Headers struct {
+	RetryAfter *int
+}
+
 type GetTradesTokenAddressPoolAddressOwnerResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -12945,6 +13079,10 @@ type GetTradesTokenAddressPoolAddressOwnerResponse struct {
 	JSON200 *TokenTradesResponse
 	// JSON400 the response for an HTTP 400 `application/json` response
 	JSON400 *ErrorResponse
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *ErrorResponse
+	// Headers503 the parsed response headers for an HTTP 503 response
+	Headers503 *GetTradesTokenAddressPoolAddressOwnerResponse503Headers
 }
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
@@ -12955,6 +13093,11 @@ func (r GetTradesTokenAddressPoolAddressOwnerResponse) GetJSON200() *TokenTrades
 // GetJSON400 returns the response for an HTTP 400 `application/json` response
 func (r GetTradesTokenAddressPoolAddressOwnerResponse) GetJSON400() *ErrorResponse {
 	return r.JSON400
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r GetTradesTokenAddressPoolAddressOwnerResponse) GetJSON503() *ErrorResponse {
+	return r.JSON503
 }
 
 // GetBody returns the raw response body bytes
@@ -13163,16 +13306,30 @@ func (r GetWalletOwnerPagePageResponse) ContentType() string {
 	return ""
 }
 
+// GetWalletOwnerTradesResponse503Headers the declared response headers of an HTTP 503 response for GetWalletOwnerTrades
+type GetWalletOwnerTradesResponse503Headers struct {
+	RetryAfter *int
+}
+
 type GetWalletOwnerTradesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	// JSON200 the response for an HTTP 200 `application/json` response
 	JSON200 *TradesResponse
+	// JSON503 the response for an HTTP 503 `application/json` response
+	JSON503 *ErrorResponse
+	// Headers503 the parsed response headers for an HTTP 503 response
+	Headers503 *GetWalletOwnerTradesResponse503Headers
 }
 
 // GetJSON200 returns the response for an HTTP 200 `application/json` response
 func (r GetWalletOwnerTradesResponse) GetJSON200() *TradesResponse {
 	return r.JSON200
+}
+
+// GetJSON503 returns the response for an HTTP 503 `application/json` response
+func (r GetWalletOwnerTradesResponse) GetJSON503() *ErrorResponse {
+	return r.JSON503
 }
 
 // GetBody returns the raw response body bytes
@@ -13936,6 +14093,8 @@ func (c *ClientWithResponses) GetTopTradersTokenWithResponse(ctx context.Context
 
 // GetTradesTokenAddressWithResponse Get Token Trades
 //
+// **Deprecated.** Switch to [`GET /v2/trades/{token}`](/data-api/trades-v2/token/get-token-trades) instead. With the SDK, use `client.getTokenTradesV2(token)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
+//
 // Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 //
 // Liquidity rows use `type: add_liquidity | remove_liquidity`, a single `pool`, and exact string amounts in `tokens[]`; they do not contain swap prices, volume or PnL. See the [liquidity guide](/guides/liquidity) for REST examples, pagination and live rooms.
@@ -13943,6 +14102,8 @@ func (c *ClientWithResponses) GetTopTradersTokenWithResponse(ctx context.Context
 // Returns a wrapper object for the known response body format(s).
 //
 // Corresponds with GET /trades/{tokenAddress} (the `GetTradesTokenAddress` operationId).
+//
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *ClientWithResponses) GetTradesTokenAddressWithResponse(ctx context.Context, tokenAddress string, params *GetTradesTokenAddressParams, reqEditors ...RequestEditorFn) (*GetTradesTokenAddressResponse, error) {
 	rsp, err := c.GetTradesTokenAddress(ctx, tokenAddress, params, reqEditors...)
 	if err != nil {
@@ -13953,6 +14114,8 @@ func (c *ClientWithResponses) GetTradesTokenAddressWithResponse(ctx context.Cont
 
 // GetTradesTokenAddressByWalletOwnerWithResponse Get User-Specific Token Trades
 //
+// **Deprecated.** Switch to [`GET /v2/trades/{token}/by-wallet/{wallet}`](/data-api/trades-v2/token/get-wallet-token-trades) instead. With the SDK, use `client.getWalletTokenTradesV2(token, wallet)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
+//
 // Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 //
 // Liquidity rows use `type: add_liquidity | remove_liquidity`, a single `pool`, and exact string amounts in `tokens[]`; they do not contain swap prices, volume or PnL. See the [liquidity guide](/guides/liquidity) for REST examples, pagination and live rooms.
@@ -13960,6 +14123,8 @@ func (c *ClientWithResponses) GetTradesTokenAddressWithResponse(ctx context.Cont
 // Returns a wrapper object for the known response body format(s).
 //
 // Corresponds with GET /trades/{tokenAddress}/by-wallet/{owner} (the `GetTradesTokenAddressByWalletOwner` operationId).
+//
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *ClientWithResponses) GetTradesTokenAddressByWalletOwnerWithResponse(ctx context.Context, tokenAddress string, owner string, params *GetTradesTokenAddressByWalletOwnerParams, reqEditors ...RequestEditorFn) (*GetTradesTokenAddressByWalletOwnerResponse, error) {
 	rsp, err := c.GetTradesTokenAddressByWalletOwner(ctx, tokenAddress, owner, params, reqEditors...)
 	if err != nil {
@@ -13970,6 +14135,8 @@ func (c *ClientWithResponses) GetTradesTokenAddressByWalletOwnerWithResponse(ctx
 
 // GetTradesTokenAddressPoolAddressWithResponse Get Pool-Specific Trades
 //
+// **Deprecated.** Switch to [`GET /v2/trades/{token}/{pool}`](/data-api/trades-v2/token/get-pool-trades) instead. With the SDK, use `client.getPoolTradesV2(token, pool)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
+//
 // Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 //
 // Liquidity rows use `type: add_liquidity | remove_liquidity`, a single `pool`, and exact string amounts in `tokens[]`; they do not contain swap prices, volume or PnL. See the [liquidity guide](/guides/liquidity) for REST examples, pagination and live rooms.
@@ -13977,6 +14144,8 @@ func (c *ClientWithResponses) GetTradesTokenAddressByWalletOwnerWithResponse(ctx
 // Returns a wrapper object for the known response body format(s).
 //
 // Corresponds with GET /trades/{tokenAddress}/{poolAddress} (the `GetTradesTokenAddressPoolAddress` operationId).
+//
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *ClientWithResponses) GetTradesTokenAddressPoolAddressWithResponse(ctx context.Context, tokenAddress string, poolAddress string, params *GetTradesTokenAddressPoolAddressParams, reqEditors ...RequestEditorFn) (*GetTradesTokenAddressPoolAddressResponse, error) {
 	rsp, err := c.GetTradesTokenAddressPoolAddress(ctx, tokenAddress, poolAddress, params, reqEditors...)
 	if err != nil {
@@ -13987,6 +14156,8 @@ func (c *ClientWithResponses) GetTradesTokenAddressPoolAddressWithResponse(ctx c
 
 // GetTradesTokenAddressPoolAddressOwnerWithResponse Get User-Specific Pool Trades
 //
+// **Deprecated.** Switch to [`GET /v2/trades/{token}/{pool}/{wallet}`](/data-api/trades-v2/token/get-wallet-pool-trades) instead. With the SDK, use `client.getWalletPoolTradesV2(token, pool, wallet)`. Liquidity events (`events=liquidity` and `events=all`) are only on this route.
+//
 // Retrieve token activity within this route’s token, pool and wallet scope. Use `events=all` to combine swaps with liquidity additions/removals, or `events=liquidity` for liquidity only. Omit `events` for the existing trades-only response. Add `enrich=identity` to identify wallets on either event type.
 //
 // Liquidity rows use `type: add_liquidity | remove_liquidity`, a single `pool`, and exact string amounts in `tokens[]`; they do not contain swap prices, volume or PnL. See the [liquidity guide](/guides/liquidity) for REST examples, pagination and live rooms.
@@ -13994,6 +14165,8 @@ func (c *ClientWithResponses) GetTradesTokenAddressPoolAddressWithResponse(ctx c
 // Returns a wrapper object for the known response body format(s).
 //
 // Corresponds with GET /trades/{tokenAddress}/{poolAddress}/{owner} (the `GetTradesTokenAddressPoolAddressOwner` operationId).
+//
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *ClientWithResponses) GetTradesTokenAddressPoolAddressOwnerWithResponse(ctx context.Context, tokenAddress string, poolAddress string, owner string, params *GetTradesTokenAddressPoolAddressOwnerParams, reqEditors ...RequestEditorFn) (*GetTradesTokenAddressPoolAddressOwnerResponse, error) {
 	rsp, err := c.GetTradesTokenAddressPoolAddressOwner(ctx, tokenAddress, poolAddress, owner, params, reqEditors...)
 	if err != nil {
@@ -14068,11 +14241,15 @@ func (c *ClientWithResponses) GetWalletOwnerPagePageWithResponse(ctx context.Con
 
 // GetWalletOwnerTradesWithResponse Get Wallet Trades
 //
-// Gets the latest trades of a wallet.
+// **Deprecated.** Switch to [`GET /v2/wallet/{wallet}/trades`](/data-api/trades-v2/wallet/get-wallet-trades) instead. With the SDK, use `client.getWalletTradesV2(wallet)`.
+//
+// # Gets the latest trades of a wallet
 //
 // Returns a wrapper object for the known response body format(s).
 //
 // Corresponds with GET /wallet/{owner}/trades (the `GetWalletOwnerTrades` operationId).
+//
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *ClientWithResponses) GetWalletOwnerTradesWithResponse(ctx context.Context, owner string, params *GetWalletOwnerTradesParams, reqEditors ...RequestEditorFn) (*GetWalletOwnerTradesResponse, error) {
 	rsp, err := c.GetWalletOwnerTrades(ctx, owner, params, reqEditors...)
 	if err != nil {
@@ -15301,6 +15478,26 @@ func ParseGetTradesTokenAddressResponse(rsp *http.Response) (*GetTradesTokenAddr
 		}
 		response.JSON400 = &dest
 
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	switch {
+	case rsp.StatusCode == 503:
+		var headers GetTradesTokenAddressResponse503Headers
+		if values := rsp.Header.Values("Retry-After"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "Retry-After", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RetryAfter = &value
+		}
+		response.Headers503 = &headers
 	}
 
 	return response, nil
@@ -15334,6 +15531,26 @@ func ParseGetTradesTokenAddressByWalletOwnerResponse(rsp *http.Response) (*GetTr
 		}
 		response.JSON400 = &dest
 
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	switch {
+	case rsp.StatusCode == 503:
+		var headers GetTradesTokenAddressByWalletOwnerResponse503Headers
+		if values := rsp.Header.Values("Retry-After"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "Retry-After", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RetryAfter = &value
+		}
+		response.Headers503 = &headers
 	}
 
 	return response, nil
@@ -15367,6 +15584,26 @@ func ParseGetTradesTokenAddressPoolAddressResponse(rsp *http.Response) (*GetTrad
 		}
 		response.JSON400 = &dest
 
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	switch {
+	case rsp.StatusCode == 503:
+		var headers GetTradesTokenAddressPoolAddressResponse503Headers
+		if values := rsp.Header.Values("Retry-After"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "Retry-After", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RetryAfter = &value
+		}
+		response.Headers503 = &headers
 	}
 
 	return response, nil
@@ -15400,6 +15637,26 @@ func ParseGetTradesTokenAddressPoolAddressOwnerResponse(rsp *http.Response) (*Ge
 		}
 		response.JSON400 = &dest
 
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	switch {
+	case rsp.StatusCode == 503:
+		var headers GetTradesTokenAddressPoolAddressOwnerResponse503Headers
+		if values := rsp.Header.Values("Retry-After"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "Retry-After", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RetryAfter = &value
+		}
+		response.Headers503 = &headers
 	}
 
 	return response, nil
@@ -15540,6 +15797,26 @@ func ParseGetWalletOwnerTradesResponse(rsp *http.Response) (*GetWalletOwnerTrade
 		}
 		response.JSON200 = &dest
 
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	switch {
+	case rsp.StatusCode == 503:
+		var headers GetWalletOwnerTradesResponse503Headers
+		if values := rsp.Header.Values("Retry-After"); len(values) > 0 {
+			var value int
+			if err := runtime.BindStyledParameterWithOptions("simple", "Retry-After", values[0], &value, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationHeader, Explode: false, Required: false, Type: "integer", Format: ""}); err != nil {
+				return nil, err
+			}
+			headers.RetryAfter = &value
+		}
+		response.Headers503 = &headers
 	}
 
 	return response, nil

@@ -247,6 +247,36 @@ const DcaJupiterWalletAddressTemplate = "/"
 // Any DCA event for a specific DCA account address.
 const DcaJupiterAccountAddressTemplate = "/"
 
+// TokenTradesV2AddressTemplate is the address of the TokenTradesV2 channel.
+//
+// Every trade of a token, across every pool. Room: `v2:transaction:{mint}`. The live side of [`GET /v2/trades/{token}`](/data-api/trades-v2/token/get-token-trades). A trade against SOL or a stablecoin arrives under the other token. A trade between two tokens arrives in both tokens' rooms, as a buy of one and a sell of the other.
+const TokenTradesV2AddressTemplate = "/"
+
+// PoolTradesV2AddressTemplate is the address of the PoolTradesV2 channel.
+//
+// A token's trades in one pool. Room: `v2:transaction:{mint}:{pool}`. The live side of [`GET /v2/trades/{token}/{pool}`](/data-api/trades-v2/token/get-pool-trades). For a stablecoin (USDC, USDT, USD1 or CASH), the room carries every leg of that stablecoin in the pool.
+const PoolTradesV2AddressTemplate = "/"
+
+// PoolWalletTradesV2AddressTemplate is the address of the PoolWalletTradesV2 channel.
+//
+// One wallet's trades of a token in one pool. Room: `v2:transaction:{mint}:{pool}:{wallet}`. The live side of [`GET /v2/trades/{token}/{pool}/{wallet}`](/data-api/trades-v2/token/get-wallet-pool-trades). The wallet matches trades it owns and trades it paid the fee for.
+const PoolWalletTradesV2AddressTemplate = "/"
+
+// WalletTradesV2AddressTemplate is the address of the WalletTradesV2 channel.
+//
+// A wallet's trades across every token. Room: `v2:wallet:{wallet}`. The live side of [`GET /v2/wallet/{wallet}/trades`](/data-api/trades-v2/wallet/get-wallet-trades). The wallet matches trades it owns and trades it paid the fee for. A trade between two tokens arrives as two trades, a buy of one and a sell of the other.
+const WalletTradesV2AddressTemplate = "/"
+
+// WhaleTradesV2AddressTemplate is the address of the WhaleTradesV2 channel.
+//
+// Trades of at least a USD tier. Rooms: `v2:transaction:whale:1000`, `:2500`, `:5000` and `:10000`. Tiers are cumulative: a $12,000 trade arrives in all four rooms. Each swap arrives once; a swap between two tokens arrives as its buy.
+const WhaleTradesV2AddressTemplate = "/"
+
+// KolTradesV2AddressTemplate is the address of the KolTradesV2 channel.
+//
+// Trades by KOL wallets. `v2:transaction:kol` carries every KOL trade. `v2:transaction:kol:1000`, `:2500`, `:5000` and `:10000` carry KOL trades of at least that tier, cumulative as in the whale rooms. A trade counts when a KOL wallet owns it or paid its fee, and `wallets` has the profile of its `wallet` when known. Each swap arrives once; a swap between two tokens arrives as its buy.
+const KolTradesV2AddressTemplate = "/"
+
 // Examples: {"room":"latest","type":"join"}
 type JoinLatestPayload struct {
 	// Default: "join"
@@ -15240,6 +15270,969 @@ func (v LeavedcaJupiterAccountPayload) Validate() error {
 	return nil
 }
 
+// Examples: {"room":"v2:transaction:kol","type":"join"}
+type JoinPayload struct {
+	// Default: "join"
+	Type string `json:"type"`
+	// v2:transaction:kol
+	//
+	// Default: "v2:transaction:kol"
+	Room string `json:"room"`
+}
+
+// UnmarshalJSON decodes JoinPayload strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *JoinPayload) UnmarshalJSON(data []byte) error {
+	members, err := asyncapirt.DecodeObject(data, "JoinPayload")
+	if err != nil {
+		return err
+	}
+
+	if err := asyncapirt.RequireKeys("JoinPayload", members, "type", "room"); err != nil {
+		return err
+	}
+
+	type plain JoinPayload
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("JoinPayload", err)
+	}
+
+	*v = JoinPayload(decoded)
+
+	if _, ok := members["type"]; ok {
+		if err := asyncapirt.CheckConst("JoinPayload.type", v.Type, "join"); err != nil {
+			return err
+		}
+	}
+
+	return v.Validate()
+}
+
+// MarshalJSON encodes JoinPayload with its const properties filled in.
+func (v JoinPayload) MarshalJSON() ([]byte, error) {
+	type plain JoinPayload
+
+	encoded := plain(v)
+	encoded.Type = "join"
+
+	data, err := json.Marshal(encoded)
+	if err != nil {
+		return nil, ctxerrors.Wrapf(commerr.ErrInvalidValue, "JoinPayload: %v", err)
+	}
+
+	return data, nil
+}
+
+// Validate checks the constraints the schema declares for JoinPayload.
+func (v JoinPayload) Validate() error {
+	if err := asyncapirt.CheckPattern("room", string(v.Room), "^v2:transaction:kol(:(1000|2500|5000|10000))?$"); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Examples: {"data":{"pools":{"9d9mb8kooFfaD3SctgZtkxQypkshx6ezhbKio89ixyy2":{"createdAt":1737165082000,"liquidityUsd":41872931.44,"lpBurn":0,"market":"meteora-dlmm","quoteToken":"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v","tokenAddress":"6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN"}},"tokens":{"6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN":{"createdOn":null,"creator":null,"decimals":6,"description":null,"image":"https://image.solanatracker.io/proxy?url=https%3A%2F%2Farweave.net%2FVQrPjACwnQRmxdKBTqNwPiyo65x7LAT773t8Kd7YBzw","name":"OFFICIAL TRUMP","supply":999999451.77,"symbol":"TRUMP","telegram":null,"twitter":null,"uri":"https://arweave.net/cSCP0h2n1crjeSWE9KF-XtLciJalDNFs7Vf-Sm0NNY0","website":"https://gettrumpmemes.com"},"So11111111111111111111111111111111111111112":{"createdOn":null,"creator":null,"decimals":9,"description":null,"image":"https://image.solanatracker.io/proxy?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsolana-labs%2Ftoken-list%2Fmain%2Fassets%2Fmainnet%2FSo11111111111111111111111111111111111111112%2Flogo.png","name":"Wrapped SOL","supply":551203887.41,"symbol":"SOL","telegram":null,"twitter":null,"uri":null,"website":null}},"trades":[{"amount":381.023775,"compute":{"unitLimit":400000,"unitPriceMicroLamports":0,"unitsConsumed":211873},"feePayer":"HjMhpGkbtBfrbmSSmjN3dGdXrdXAvwPgt2YqUP2GjZpF","fees":{"platformFeeApp":null,"platformFeeMint":null,"platformFeeRaw":"0","priorityLamports":0,"signatures":2,"tipLamports":0,"tipService":null,"totalUsd":0.001827,"txLamports":10000},"from":{"amount":12.5,"amountRaw":"12500000000","decimals":9,"mint":"So11111111111111111111111111111111111111112","priceUsd":182.71,"residualRaw":"2039280","walletChangeRaw":"-12502039280"},"marketCapUsd":5994045247.993275,"noPool":false,"owner":"FbMxP3GVq8TQ36nbYgx4NP9iygMpwAwFWJwW81ioCiSF","platform":null,"pools":["8sLbNZoA1cfnvMJLPfp98ZLAnFSYCFApfJKMbiXNLwxj","9d9mb8kooFfaD3SctgZtkxQypkshx6ezhbKio89ixyy2"],"priceEstimated":false,"priceSol":0.03280635178211648,"priceUsd":5.994048534110503,"program":"jupiter","quoteAmount":12.5,"quotePriceUsd":182.71,"quoteToken":"So11111111111111111111111111111111111111112","relayed":true,"roundTrip":false,"route":{"instructionIndex":2,"priceMint":"So11111111111111111111111111111111111111112","programId":"JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4","router":"jupiter","txPrograms":["ComputeBudget111111111111111111111111111111","JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4","CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK","LBUZKhRxPF3XUpBCjp4YzTKgLccjZhTSDM9YuVaPwxo","TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"]},"slot":470027315,"solPriceUsd":182.71,"swapIndex":0,"time":1794733462000,"to":{"amount":381.023775,"amountRaw":"381023775","decimals":6,"mint":"6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN","priceUsd":5.994048534110503,"residualRaw":"0","walletChangeRaw":"381023775"},"token":"6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN","transferFee":false,"tx":"3wpLJJVCb7Z5ANgtqqkJxkmhEh1y5yvE4GkPESuAtjQWbqFFd2PAzhouVh3Yu4EwTWYXtytptjFy8DHU3L8s6fMg","txIndex":187,"type":"buy","volumeSol":12.5,"volumeUsd":2283.875,"wallet":"FbMxP3GVq8TQ36nbYgx4NP9iygMpwAwFWJwW81ioCiSF"}],"wallets":{"FbMxP3GVq8TQ36nbYgx4NP9iygMpwAwFWJwW81ioCiSF":{"avatar":"https://image.solanatracker.io/proxy?url=https%3A%2F%2Fexample.com%2Favatar.png","name":"Example KOL","platforms":["photon"],"tags":["kol","photon"],"twitter":"https://x.com/example","type":"kol"}}},"room":"v2:transaction:kol","type":"message"}
+type MessagePayload struct {
+	Type string `json:"type"`
+	// v2:transaction:kol
+	//
+	// Default: "v2:transaction:kol"
+	Room string `json:"room"`
+	// New trades in the room, in the format of a `/v2` trades page without the cursor fields.
+	Data TradesV2Live `json:"data"`
+}
+
+// UnmarshalJSON decodes MessagePayload strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *MessagePayload) UnmarshalJSON(data []byte) error {
+	members, err := asyncapirt.DecodeObject(data, "MessagePayload")
+	if err != nil {
+		return err
+	}
+
+	if err := asyncapirt.RequireKeys("MessagePayload", members, "type", "room", "data"); err != nil {
+		return err
+	}
+
+	type plain MessagePayload
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("MessagePayload", err)
+	}
+
+	*v = MessagePayload(decoded)
+
+	if _, ok := members["type"]; ok {
+		if err := asyncapirt.CheckConst("MessagePayload.type", v.Type, "message"); err != nil {
+			return err
+		}
+	}
+
+	return v.Validate()
+}
+
+// MarshalJSON encodes MessagePayload with its const properties filled in.
+func (v MessagePayload) MarshalJSON() ([]byte, error) {
+	type plain MessagePayload
+
+	encoded := plain(v)
+	encoded.Type = "message"
+
+	data, err := json.Marshal(encoded)
+	if err != nil {
+		return nil, ctxerrors.Wrapf(commerr.ErrInvalidValue, "MessagePayload: %v", err)
+	}
+
+	return data, nil
+}
+
+// Validate checks the constraints the schema declares for MessagePayload.
+func (v MessagePayload) Validate() error {
+	if err := asyncapirt.CheckPattern("room", string(v.Room), "^v2:transaction:kol(:(1000|2500|5000|10000))?$"); err != nil {
+		return err
+	}
+	if err := v.Data.Validate(); err != nil {
+		return ctxerrors.Wrap(err, "data")
+	}
+
+	return nil
+}
+
+// New trades in the room, in the format of a `/v2` trades page without the cursor fields.
+type TradesV2Live struct {
+	// Newest first.
+	Trades []TradeV2 `json:"trades"`
+	// Each mint in `trades`, once, by mint address.
+	Tokens map[string]TradeTokenV2 `json:"tokens"`
+	// The pools in `trades`, by pool address.
+	Pools map[string]TradePoolV2 `json:"pools"`
+	// Known wallets in `trades`, by the `wallet` field of each trade.
+	Wallets map[string]WalletIdentityV2 `json:"wallets"`
+}
+
+// UnmarshalJSON decodes TradesV2Live strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *TradesV2Live) UnmarshalJSON(data []byte) error {
+	members, err := asyncapirt.DecodeObject(data, "TradesV2Live")
+	if err != nil {
+		return err
+	}
+
+	if err := asyncapirt.RequireKeys("TradesV2Live", members, "trades", "tokens", "pools", "wallets"); err != nil {
+		return err
+	}
+
+	type plain TradesV2Live
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("TradesV2Live", err)
+	}
+
+	*v = TradesV2Live(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for TradesV2Live.
+func (v TradesV2Live) Validate() error {
+	for i0, item0 := range v.Trades {
+		if err := item0.Validate(); err != nil {
+			return ctxerrors.Wrap(err, fmt.Sprintf("%s[%d]", "trades", i0))
+		}
+	}
+	for key0, value0 := range v.Tokens {
+		if err := value0.Validate(); err != nil {
+			return ctxerrors.Wrap(err, "tokens"+"."+key0)
+		}
+	}
+	for key0, value0 := range v.Pools {
+		if err := value0.Validate(); err != nil {
+			return ctxerrors.Wrap(err, "pools"+"."+key0)
+		}
+	}
+	for key0, value0 := range v.Wallets {
+		if err := value0.Validate(); err != nil {
+			return ctxerrors.Wrap(err, "wallets"+"."+key0)
+		}
+	}
+
+	return nil
+}
+
+// One swap. A trade between two tokens is two trades: a buy of one and a sell of the other.
+type TradeV2 struct {
+	// Transaction signature. Null when it is not known.
+	Tx *string `json:"tx"`
+	// Slot of the block.
+	Slot int64 `json:"slot"`
+	// Position of the transaction in its block.
+	TxIndex int64 `json:"txIndex"`
+	// Position of the swap in its transaction.
+	SwapIndex int64 `json:"swapIndex"`
+	// Block time in Unix milliseconds. Many trades share a time: order by `slot`, `txIndex` and `swapIndex`.
+	Time int64 `json:"time"`
+	// Buy or sell of `token`.
+	Type TradeV2Type `json:"type"`
+	// The trader: `owner`, or `feePayer` when the owner is a program vault.
+	Wallet string `json:"wallet"`
+	// The account whose token balances changed.
+	Owner string `json:"owner"`
+	// The account that signed and paid the transaction fee. Differs from `owner` on relayed and routed trades.
+	FeePayer string `json:"feePayer"`
+	// Mint of the traded token. Its metadata is in `tokens`.
+	Token string `json:"token"`
+	// Amount of `token`, in whole tokens.
+	Amount float64 `json:"amount"`
+	// USD price of `token` at the trade. Null when the trade could not be priced.
+	PriceUsd *float64 `json:"priceUsd"`
+	// Price of `token` in SOL at the trade.
+	PriceSol *float64 `json:"priceSol"`
+	// `priceUsd` times the token's current supply. Null when either is unknown.
+	MarketCapUsd *float64 `json:"marketCapUsd"`
+	// Mint of the other side of the swap. Its metadata is in `tokens`.
+	QuoteToken string `json:"quoteToken"`
+	// Amount of `quoteToken`, in whole tokens.
+	QuoteAmount float64 `json:"quoteAmount"`
+	// USD price of `quoteToken` at the trade.
+	QuotePriceUsd *float64 `json:"quotePriceUsd"`
+	// USD value of the trade. 0 when it could not be priced.
+	VolumeUsd float64 `json:"volumeUsd"`
+	// Value of the trade in SOL.
+	VolumeSol *float64 `json:"volumeSol"`
+	// SOL price in USD at the trade.
+	SolPriceUsd *float64 `json:"solPriceUsd"`
+	// The program that made the swap, such as `pumpfun-amm`, `meteora-dlmm` or `jupiter`.
+	Program string `json:"program"`
+	// The trading app the trade went through, such as `axiom`, `photon` or `gmgn`, when it is known.
+	Platform *string `json:"platform"`
+	// Pools the swap went through, in order.
+	Pools []string `json:"pools"`
+	// The same transaction also traded this token the other way in the same pool.
+	RoundTrip bool `json:"roundTrip"`
+	// Someone other than `owner` paid the transaction fee.
+	Relayed bool `json:"relayed"`
+	// Priced through another token's USD price instead of a SOL or stablecoin leg, so less exact.
+	PriceEstimated bool `json:"priceEstimated"`
+	// The pool could not be identified. `pools` may be empty.
+	NoPool bool `json:"noPool"`
+	// A Token-2022 transfer fee was withheld on this swap.
+	TransferFee bool `json:"transferFee"`
+	// One side of a swap, with exact amounts.
+	From TradeLegV2 `json:"from"`
+	// One side of a swap, with exact amounts.
+	To TradeLegV2 `json:"to"`
+	// Fees of the transaction.
+	Fees    TradeFeesV2    `json:"fees"`
+	Compute TradeComputeV2 `json:"compute"`
+	Route   TradeRouteV2   `json:"route"`
+}
+
+// UnmarshalJSON decodes TradeV2 strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *TradeV2) UnmarshalJSON(data []byte) error {
+	members, err := asyncapirt.DecodeObject(data, "TradeV2")
+	if err != nil {
+		return err
+	}
+
+	if err := asyncapirt.RequireKeys("TradeV2", members, "tx", "slot", "txIndex", "swapIndex", "time", "type", "wallet", "owner", "feePayer", "token", "amount", "priceUsd", "priceSol", "marketCapUsd", "quoteToken", "quoteAmount", "quotePriceUsd", "volumeUsd", "volumeSol", "solPriceUsd", "program", "platform", "pools", "roundTrip", "relayed", "priceEstimated", "noPool", "transferFee", "from", "to", "fees", "compute", "route"); err != nil {
+		return err
+	}
+
+	type plain TradeV2
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("TradeV2", err)
+	}
+
+	*v = TradeV2(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for TradeV2.
+func (v TradeV2) Validate() error {
+	if err := v.Type.Validate(); err != nil {
+		return ctxerrors.Wrap(err, "type")
+	}
+	if err := v.From.Validate(); err != nil {
+		return ctxerrors.Wrap(err, "from")
+	}
+	if err := v.To.Validate(); err != nil {
+		return ctxerrors.Wrap(err, "to")
+	}
+	if err := v.Fees.Validate(); err != nil {
+		return ctxerrors.Wrap(err, "fees")
+	}
+	if err := v.Compute.Validate(); err != nil {
+		return ctxerrors.Wrap(err, "compute")
+	}
+	if err := v.Route.Validate(); err != nil {
+		return ctxerrors.Wrap(err, "route")
+	}
+
+	return nil
+}
+
+// Buy or sell of `token`.
+type TradeV2Type string
+
+// Values of TradeV2Type.
+const (
+	TradeV2TypeBuy  TradeV2Type = "buy"
+	TradeV2TypeSell TradeV2Type = "sell"
+)
+
+// Validate reports whether v is one of the values the schema lists.
+func (v TradeV2Type) Validate() error {
+	switch v {
+	case TradeV2TypeBuy, TradeV2TypeSell:
+		return nil
+	}
+
+	return asyncapirt.Invalid("TradeV2Type", fmt.Sprintf("unknown value %v", v))
+}
+
+// One side of a swap, with exact amounts.
+type TradeLegV2 struct {
+	Mint     string `json:"mint"`
+	Decimals int64  `json:"decimals"`
+	// In whole tokens.
+	Amount float64 `json:"amount"`
+	// In base units, as a string.
+	AmountRaw string `json:"amountRaw"`
+	// USD price of this mint at the trade. Null when it has none.
+	PriceUsd *float64 `json:"priceUsd"`
+	// Other movement of this mint in the same transaction, beside the swap, such as rent, tips or a platform fee. In base units, as a string.
+	ResidualRaw string `json:"residualRaw"`
+	// The owner's balance change in this mint over the whole transaction, negative on `from`. Includes rent and tips, not the network fee. For SOL, lamports and wrapped SOL count together. In base units, as a string.
+	WalletChangeRaw string `json:"walletChangeRaw"`
+}
+
+// UnmarshalJSON decodes TradeLegV2 strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *TradeLegV2) UnmarshalJSON(data []byte) error {
+	members, err := asyncapirt.DecodeObject(data, "TradeLegV2")
+	if err != nil {
+		return err
+	}
+
+	if err := asyncapirt.RequireKeys("TradeLegV2", members, "mint", "decimals", "amount", "amountRaw", "priceUsd", "residualRaw", "walletChangeRaw"); err != nil {
+		return err
+	}
+
+	type plain TradeLegV2
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("TradeLegV2", err)
+	}
+
+	*v = TradeLegV2(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for TradeLegV2.
+func (v TradeLegV2) Validate() error {
+
+	return nil
+}
+
+// Fees of the transaction.
+type TradeFeesV2 struct {
+	// Network fee in lamports, priority fee included.
+	TxLamports int64 `json:"txLamports"`
+	// Priority fee in lamports.
+	PriorityLamports int64 `json:"priorityLamports"`
+	// Number of signatures on the transaction.
+	Signatures int64 `json:"signatures"`
+	// Tip paid to a landing service, in lamports.
+	TipLamports int64 `json:"tipLamports"`
+	// The landing service that was tipped, such as `jito` or `helius-sender`.
+	TipService *string `json:"tipService"`
+	// Fee paid to the trading app, in `platformFeeMint` base units, as a string. `0` when none was found.
+	PlatformFeeRaw string `json:"platformFeeRaw"`
+	// Mint the platform fee was paid in.
+	PlatformFeeMint *string `json:"platformFeeMint"`
+	// The app that received the platform fee, such as `axiom` or `fomo`. Null when none was found.
+	PlatformFeeApp *string `json:"platformFeeApp"`
+	// Network fee, tip and platform fee in USD. A platform fee in a mint with no price on this trade is left out.
+	TotalUsd *float64 `json:"totalUsd"`
+}
+
+// UnmarshalJSON decodes TradeFeesV2 strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *TradeFeesV2) UnmarshalJSON(data []byte) error {
+	members, err := asyncapirt.DecodeObject(data, "TradeFeesV2")
+	if err != nil {
+		return err
+	}
+
+	if err := asyncapirt.RequireKeys("TradeFeesV2", members, "txLamports", "priorityLamports", "signatures", "tipLamports", "tipService", "platformFeeRaw", "platformFeeMint", "platformFeeApp", "totalUsd"); err != nil {
+		return err
+	}
+
+	type plain TradeFeesV2
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("TradeFeesV2", err)
+	}
+
+	*v = TradeFeesV2(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for TradeFeesV2.
+func (v TradeFeesV2) Validate() error {
+
+	return nil
+}
+
+type TradeComputeV2 struct {
+	// Compute units the transaction used.
+	UnitsConsumed int64 `json:"unitsConsumed"`
+	// Compute unit limit the transaction set. Null when it set none.
+	UnitLimit *int64 `json:"unitLimit"`
+	// Compute unit price in micro-lamports. Null when a priority fee was paid but the price is not known.
+	UnitPriceMicroLamports *int64 `json:"unitPriceMicroLamports"`
+}
+
+// UnmarshalJSON decodes TradeComputeV2 strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *TradeComputeV2) UnmarshalJSON(data []byte) error {
+	members, err := asyncapirt.DecodeObject(data, "TradeComputeV2")
+	if err != nil {
+		return err
+	}
+
+	if err := asyncapirt.RequireKeys("TradeComputeV2", members, "unitsConsumed", "unitLimit", "unitPriceMicroLamports"); err != nil {
+		return err
+	}
+
+	type plain TradeComputeV2
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("TradeComputeV2", err)
+	}
+
+	*v = TradeComputeV2(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for TradeComputeV2.
+func (v TradeComputeV2) Validate() error {
+
+	return nil
+}
+
+type TradeRouteV2 struct {
+	// Address of the program in `program`.
+	ProgramID *string `json:"programId"`
+	// The router the swap went through, when there is one.
+	Router *string `json:"router"`
+	// The mint the trade's price was derived from.
+	PriceMint *string `json:"priceMint"`
+	// Index of the top-level instruction that holds the swap.
+	InstructionIndex int64 `json:"instructionIndex"`
+	// Every program the transaction called.
+	TxPrograms []string `json:"txPrograms"`
+}
+
+// UnmarshalJSON decodes TradeRouteV2 strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *TradeRouteV2) UnmarshalJSON(data []byte) error {
+	members, err := asyncapirt.DecodeObject(data, "TradeRouteV2")
+	if err != nil {
+		return err
+	}
+
+	if err := asyncapirt.RequireKeys("TradeRouteV2", members, "programId", "router", "priceMint", "instructionIndex", "txPrograms"); err != nil {
+		return err
+	}
+
+	type plain TradeRouteV2
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("TradeRouteV2", err)
+	}
+
+	*v = TradeRouteV2(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for TradeRouteV2.
+func (v TradeRouteV2) Validate() error {
+
+	return nil
+}
+
+// Token metadata, current at the time of the request.
+type TradeTokenV2 struct {
+	Name     *string `json:"name"`
+	Symbol   *string `json:"symbol"`
+	Decimals *int64  `json:"decimals"`
+	Image    *string `json:"image"`
+	// Current supply, in whole tokens.
+	Supply *float64 `json:"supply"`
+	// Metadata URI.
+	URI *string `json:"uri,omitempty"`
+	// At most 2,000 characters.
+	Description *string `json:"description,omitempty"`
+	Creator     *string `json:"creator,omitempty"`
+	CreatedOn   *string `json:"createdOn,omitempty"`
+	Twitter     *string `json:"twitter,omitempty"`
+	Telegram    *string `json:"telegram,omitempty"`
+	Website     *string `json:"website,omitempty"`
+}
+
+// UnmarshalJSON decodes TradeTokenV2 strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *TradeTokenV2) UnmarshalJSON(data []byte) error {
+	members, err := asyncapirt.DecodeObject(data, "TradeTokenV2")
+	if err != nil {
+		return err
+	}
+
+	if err := asyncapirt.RequireKeys("TradeTokenV2", members, "name", "symbol", "decimals", "image", "supply"); err != nil {
+		return err
+	}
+
+	type plain TradeTokenV2
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("TradeTokenV2", err)
+	}
+
+	*v = TradeTokenV2(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for TradeTokenV2.
+func (v TradeTokenV2) Validate() error {
+
+	return nil
+}
+
+// The pool as it is now, not at the time of the trade.
+type TradePoolV2 struct {
+	// DEX of the pool.
+	Market       *string  `json:"market"`
+	TokenAddress *string  `json:"tokenAddress"`
+	QuoteToken   *string  `json:"quoteToken"`
+	LiquidityUsd *float64 `json:"liquidityUsd"`
+	// Percentage of LP tokens burned.
+	LpBurn *float64 `json:"lpBurn"`
+	// Unix milliseconds.
+	CreatedAt *int64 `json:"createdAt"`
+}
+
+// UnmarshalJSON decodes TradePoolV2 strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *TradePoolV2) UnmarshalJSON(data []byte) error {
+	members, err := asyncapirt.DecodeObject(data, "TradePoolV2")
+	if err != nil {
+		return err
+	}
+
+	if err := asyncapirt.RequireKeys("TradePoolV2", members, "market", "tokenAddress", "quoteToken", "liquidityUsd", "lpBurn", "createdAt"); err != nil {
+		return err
+	}
+
+	type plain TradePoolV2
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("TradePoolV2", err)
+	}
+
+	*v = TradePoolV2(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for TradePoolV2.
+func (v TradePoolV2) Validate() error {
+
+	return nil
+}
+
+// What is known about a wallet: KOL profile, trading platforms, developer or pool labels, bots and SNS name. Only known fields are returned. Current labels, not a snapshot at the time of the trade.
+type WalletIdentityV2 struct {
+	// Primary label for single-badge UIs, such as `kol`, `bot`, `pool`, `developer` or a platform tag.
+	Type *string `json:"type,omitempty"`
+	// Examples: ["kol","axiom","sns"]
+	Tags             []string                   `json:"tags,omitempty"`
+	Name             *string                    `json:"name,omitempty"`
+	Twitter          *string                    `json:"twitter,omitempty"`
+	Avatar           *string                    `json:"avatar,omitempty"`
+	Platforms        []string                   `json:"platforms,omitempty"`
+	PlatformProfiles map[string]map[string]any  `json:"platformProfiles,omitempty"`
+	Sns              *WalletIdentityV2Sns       `json:"sns,omitempty"`
+	Developer        *WalletIdentityV2Developer `json:"developer,omitempty"`
+	Pool             *WalletIdentityV2Pool      `json:"pool,omitempty"`
+	// Known centralized exchange hot wallet label, when known.
+	Exchange *WalletIdentityV2Exchange `json:"exchange,omitempty"`
+	Bot      *WalletIdentityV2Bot      `json:"bot,omitempty"`
+	// Curated exploit/scam wallet label, when known.
+	Hacker *WalletIdentityV2Hacker `json:"hacker,omitempty"`
+	// Curated spam-dusting wallet label, when known.
+	SpamDusting *WalletIdentityV2SpamDusting `json:"spamDusting,omitempty"`
+}
+
+// UnmarshalJSON decodes WalletIdentityV2 strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *WalletIdentityV2) UnmarshalJSON(data []byte) error {
+	if _, err := asyncapirt.DecodeObject(data, "WalletIdentityV2"); err != nil {
+		return err
+	}
+
+	type plain WalletIdentityV2
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("WalletIdentityV2", err)
+	}
+
+	*v = WalletIdentityV2(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for WalletIdentityV2.
+func (v WalletIdentityV2) Validate() error {
+	if v.Sns != nil {
+		if err := (*v.Sns).Validate(); err != nil {
+			return ctxerrors.Wrap(err, "sns")
+		}
+	}
+	if v.Developer != nil {
+		if err := (*v.Developer).Validate(); err != nil {
+			return ctxerrors.Wrap(err, "developer")
+		}
+	}
+	if v.Pool != nil {
+		if err := (*v.Pool).Validate(); err != nil {
+			return ctxerrors.Wrap(err, "pool")
+		}
+	}
+	if v.Exchange != nil {
+		if err := (*v.Exchange).Validate(); err != nil {
+			return ctxerrors.Wrap(err, "exchange")
+		}
+	}
+	if v.Bot != nil {
+		if err := (*v.Bot).Validate(); err != nil {
+			return ctxerrors.Wrap(err, "bot")
+		}
+	}
+	if v.Hacker != nil {
+		if err := (*v.Hacker).Validate(); err != nil {
+			return ctxerrors.Wrap(err, "hacker")
+		}
+	}
+	if v.SpamDusting != nil {
+		if err := (*v.SpamDusting).Validate(); err != nil {
+			return ctxerrors.Wrap(err, "spamDusting")
+		}
+	}
+
+	return nil
+}
+
+type WalletIdentityV2Sns struct {
+	// Examples: "trader.sol"
+	Domain *string `json:"domain,omitempty"`
+}
+
+// UnmarshalJSON decodes WalletIdentityV2Sns strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *WalletIdentityV2Sns) UnmarshalJSON(data []byte) error {
+	if _, err := asyncapirt.DecodeObject(data, "WalletIdentityV2Sns"); err != nil {
+		return err
+	}
+
+	type plain WalletIdentityV2Sns
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("WalletIdentityV2Sns", err)
+	}
+
+	*v = WalletIdentityV2Sns(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for WalletIdentityV2Sns.
+func (v WalletIdentityV2Sns) Validate() error {
+
+	return nil
+}
+
+type WalletIdentityV2Developer struct {
+	Token      *string  `json:"token,omitempty"`
+	Via        []string `json:"via,omitempty"`
+	Pools      []string `json:"pools,omitempty"`
+	CreationTx *string  `json:"creationTx,omitempty"`
+	// Unix timestamp in seconds.
+	CreatedAt *int64 `json:"createdAt,omitempty"`
+}
+
+// UnmarshalJSON decodes WalletIdentityV2Developer strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *WalletIdentityV2Developer) UnmarshalJSON(data []byte) error {
+	if _, err := asyncapirt.DecodeObject(data, "WalletIdentityV2Developer"); err != nil {
+		return err
+	}
+
+	type plain WalletIdentityV2Developer
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("WalletIdentityV2Developer", err)
+	}
+
+	*v = WalletIdentityV2Developer(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for WalletIdentityV2Developer.
+func (v WalletIdentityV2Developer) Validate() error {
+
+	return nil
+}
+
+type WalletIdentityV2Pool struct {
+	Program     *string `json:"program,omitempty"`
+	PoolAddress *string `json:"poolAddress,omitempty"`
+}
+
+// UnmarshalJSON decodes WalletIdentityV2Pool strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *WalletIdentityV2Pool) UnmarshalJSON(data []byte) error {
+	if _, err := asyncapirt.DecodeObject(data, "WalletIdentityV2Pool"); err != nil {
+		return err
+	}
+
+	type plain WalletIdentityV2Pool
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("WalletIdentityV2Pool", err)
+	}
+
+	*v = WalletIdentityV2Pool(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for WalletIdentityV2Pool.
+func (v WalletIdentityV2Pool) Validate() error {
+
+	return nil
+}
+
+// Known centralized exchange hot wallet label, when known.
+type WalletIdentityV2Exchange struct {
+	Name *string `json:"name,omitempty"`
+}
+
+// UnmarshalJSON decodes WalletIdentityV2Exchange strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *WalletIdentityV2Exchange) UnmarshalJSON(data []byte) error {
+	if _, err := asyncapirt.DecodeObject(data, "WalletIdentityV2Exchange"); err != nil {
+		return err
+	}
+
+	type plain WalletIdentityV2Exchange
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("WalletIdentityV2Exchange", err)
+	}
+
+	*v = WalletIdentityV2Exchange(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for WalletIdentityV2Exchange.
+func (v WalletIdentityV2Exchange) Validate() error {
+
+	return nil
+}
+
+type WalletIdentityV2Bot struct {
+	Name *string `json:"name,omitempty"`
+	// Not enforced by the generated code: format uri.
+	Avatar *string `json:"avatar,omitempty"`
+}
+
+// UnmarshalJSON decodes WalletIdentityV2Bot strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *WalletIdentityV2Bot) UnmarshalJSON(data []byte) error {
+	if _, err := asyncapirt.DecodeObject(data, "WalletIdentityV2Bot"); err != nil {
+		return err
+	}
+
+	type plain WalletIdentityV2Bot
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("WalletIdentityV2Bot", err)
+	}
+
+	*v = WalletIdentityV2Bot(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for WalletIdentityV2Bot.
+func (v WalletIdentityV2Bot) Validate() error {
+
+	return nil
+}
+
+// Curated exploit/scam wallet label, when known.
+type WalletIdentityV2Hacker struct {
+	Label *string `json:"label,omitempty"`
+}
+
+// UnmarshalJSON decodes WalletIdentityV2Hacker strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *WalletIdentityV2Hacker) UnmarshalJSON(data []byte) error {
+	if _, err := asyncapirt.DecodeObject(data, "WalletIdentityV2Hacker"); err != nil {
+		return err
+	}
+
+	type plain WalletIdentityV2Hacker
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("WalletIdentityV2Hacker", err)
+	}
+
+	*v = WalletIdentityV2Hacker(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for WalletIdentityV2Hacker.
+func (v WalletIdentityV2Hacker) Validate() error {
+
+	return nil
+}
+
+// Curated spam-dusting wallet label, when known.
+type WalletIdentityV2SpamDusting struct {
+	Label *string `json:"label,omitempty"`
+}
+
+// UnmarshalJSON decodes WalletIdentityV2SpamDusting strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *WalletIdentityV2SpamDusting) UnmarshalJSON(data []byte) error {
+	if _, err := asyncapirt.DecodeObject(data, "WalletIdentityV2SpamDusting"); err != nil {
+		return err
+	}
+
+	type plain WalletIdentityV2SpamDusting
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("WalletIdentityV2SpamDusting", err)
+	}
+
+	*v = WalletIdentityV2SpamDusting(decoded)
+
+	return v.Validate()
+}
+
+// Validate checks the constraints the schema declares for WalletIdentityV2SpamDusting.
+func (v WalletIdentityV2SpamDusting) Validate() error {
+
+	return nil
+}
+
+// Examples: {"room":"v2:transaction:kol","type":"leave"}
+type LeavePayload struct {
+	// Default: "leave"
+	Type string `json:"type"`
+	// v2:transaction:kol
+	//
+	// Default: "v2:transaction:kol"
+	Room string `json:"room"`
+}
+
+// UnmarshalJSON decodes LeavePayload strictly. Required properties must be
+// present and the decoded value must pass Validate.
+func (v *LeavePayload) UnmarshalJSON(data []byte) error {
+	members, err := asyncapirt.DecodeObject(data, "LeavePayload")
+	if err != nil {
+		return err
+	}
+
+	if err := asyncapirt.RequireKeys("LeavePayload", members, "type", "room"); err != nil {
+		return err
+	}
+
+	type plain LeavePayload
+
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return asyncapirt.DecodeError("LeavePayload", err)
+	}
+
+	*v = LeavePayload(decoded)
+
+	if _, ok := members["type"]; ok {
+		if err := asyncapirt.CheckConst("LeavePayload.type", v.Type, "leave"); err != nil {
+			return err
+		}
+	}
+
+	return v.Validate()
+}
+
+// MarshalJSON encodes LeavePayload with its const properties filled in.
+func (v LeavePayload) MarshalJSON() ([]byte, error) {
+	type plain LeavePayload
+
+	encoded := plain(v)
+	encoded.Type = "leave"
+
+	data, err := json.Marshal(encoded)
+	if err != nil {
+		return nil, ctxerrors.Wrapf(commerr.ErrInvalidValue, "LeavePayload: %v", err)
+	}
+
+	return data, nil
+}
+
+// Validate checks the constraints the schema declares for LeavePayload.
+func (v LeavePayload) Validate() error {
+	if err := asyncapirt.CheckPattern("room", string(v.Room), "^v2:transaction:kol(:(1000|2500|5000|10000))?$"); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 type DcaUsdMap = map[string]float64
 
 // Message names, as the spec gives them.
@@ -15754,6 +16747,15 @@ const (
 	// Unsubscribe
 	// Payload: LeavedcaJupiterAccountPayload.
 	MessageLeavedcaJupiterAccount = "leavedcaJupiterAccount"
+	// Subscribe to KOL trades
+	// Payload: JoinPayload.
+	MessageJoin = "join"
+	// New KOL trades
+	// Payload: MessagePayload.
+	MessageMessage = "message"
+	// Unsubscribe from KOL trades
+	// Payload: LeavePayload.
+	MessageLeave = "leave"
 )
 
 // ReceivedMessage is a decoded incoming message. Payload holds the payload
@@ -16355,6 +17357,20 @@ var receivedMessages = []asyncapirt.Candidate{
 		},
 		Decode: func(data []byte) (any, error) {
 			var payload DcaJupiterAccountMessagePayload
+			if err := asyncapirt.UnmarshalStrict(data, &payload); err != nil {
+				return nil, err
+			}
+
+			return payload, nil
+		},
+	},
+	{
+		Name: MessageMessage,
+		Matchers: []asyncapirt.Matcher{
+			{Pointer: "/type", Value: "\"message\""},
+		},
+		Decode: func(data []byte) (any, error) {
+			var payload MessagePayload
 			if err := asyncapirt.UnmarshalStrict(data, &payload); err != nil {
 				return nil, err
 			}
@@ -17103,6 +18119,9 @@ type Handler interface {
 	// Receive, account-scoped events
 	// Payload: DcaJupiterAccountMessagePayload.
 	HandleDcaJupiterAccountMessage(ctx context.Context, payload DcaJupiterAccountMessagePayload) error
+	// New KOL trades
+	// Payload: MessagePayload.
+	HandleMessage(ctx context.Context, payload MessagePayload) error
 	// Subscription confirmed
 	// Payload: LatestJoinedPayload.
 	HandleLatestJoined(ctx context.Context, payload LatestJoinedPayload) error
@@ -17445,6 +18464,11 @@ func (UnimplementedHandler) HandleDcaJupiterWalletMessage(context.Context, DcaJu
 
 // HandleDcaJupiterAccountMessage ignores the message.
 func (UnimplementedHandler) HandleDcaJupiterAccountMessage(context.Context, DcaJupiterAccountMessagePayload) error {
+	return nil
+}
+
+// HandleMessage ignores the message.
+func (UnimplementedHandler) HandleMessage(context.Context, MessagePayload) error {
 	return nil
 }
 
@@ -18131,6 +19155,17 @@ func Dispatch(ctx context.Context, handler Handler, message ReceivedMessage) err
 		}
 
 		if err := handler.HandleDcaJupiterAccountMessage(ctx, payload); err != nil {
+			return ctxerrors.Wrapf(err, "handle %s", message.Name)
+		}
+
+		return nil
+	case MessageMessage:
+		payload, ok := message.Payload.(MessagePayload)
+		if !ok {
+			return ctxerrors.Wrapf(commerr.ErrInvalidValue, "%s payload is %T", message.Name, message.Payload)
+		}
+
+		if err := handler.HandleMessage(ctx, payload); err != nil {
 			return ctxerrors.Wrapf(err, "handle %s", message.Name)
 		}
 
@@ -19476,6 +20511,126 @@ func (c *Client) SubscribeToJupiterDcaAccount(ctx context.Context, payload Joind
 func (c *Client) UnsubscribeFromJupiterDcaAccount(ctx context.Context, payload LeavedcaJupiterAccountPayload) error {
 	if err := asyncapirt.Send(ctx, c.transport, payload); err != nil {
 		return ctxerrors.Wrapf(err, "send %s", MessageLeavedcaJupiterAccount)
+	}
+
+	return nil
+}
+
+// SubscribeTokenTradesV2 validates payload and sends it as a MessageJoin message.
+// Subscribe to token trades
+func (c *Client) SubscribeTokenTradesV2(ctx context.Context, payload JoinPayload) error {
+	if err := asyncapirt.Send(ctx, c.transport, payload); err != nil {
+		return ctxerrors.Wrapf(err, "send %s", MessageJoin)
+	}
+
+	return nil
+}
+
+// UnsubscribeTokenTradesV2 validates payload and sends it as a MessageLeave message.
+// Unsubscribe from token trades
+func (c *Client) UnsubscribeTokenTradesV2(ctx context.Context, payload LeavePayload) error {
+	if err := asyncapirt.Send(ctx, c.transport, payload); err != nil {
+		return ctxerrors.Wrapf(err, "send %s", MessageLeave)
+	}
+
+	return nil
+}
+
+// SubscribePoolTradesV2 validates payload and sends it as a MessageJoin message.
+// Subscribe to pool trades
+func (c *Client) SubscribePoolTradesV2(ctx context.Context, payload JoinPayload) error {
+	if err := asyncapirt.Send(ctx, c.transport, payload); err != nil {
+		return ctxerrors.Wrapf(err, "send %s", MessageJoin)
+	}
+
+	return nil
+}
+
+// UnsubscribePoolTradesV2 validates payload and sends it as a MessageLeave message.
+// Unsubscribe from pool trades
+func (c *Client) UnsubscribePoolTradesV2(ctx context.Context, payload LeavePayload) error {
+	if err := asyncapirt.Send(ctx, c.transport, payload); err != nil {
+		return ctxerrors.Wrapf(err, "send %s", MessageLeave)
+	}
+
+	return nil
+}
+
+// SubscribePoolWalletTradesV2 validates payload and sends it as a MessageJoin message.
+// Subscribe to wallet pool trades
+func (c *Client) SubscribePoolWalletTradesV2(ctx context.Context, payload JoinPayload) error {
+	if err := asyncapirt.Send(ctx, c.transport, payload); err != nil {
+		return ctxerrors.Wrapf(err, "send %s", MessageJoin)
+	}
+
+	return nil
+}
+
+// UnsubscribePoolWalletTradesV2 validates payload and sends it as a MessageLeave message.
+// Unsubscribe from wallet pool trades
+func (c *Client) UnsubscribePoolWalletTradesV2(ctx context.Context, payload LeavePayload) error {
+	if err := asyncapirt.Send(ctx, c.transport, payload); err != nil {
+		return ctxerrors.Wrapf(err, "send %s", MessageLeave)
+	}
+
+	return nil
+}
+
+// SubscribeWalletTradesV2 validates payload and sends it as a MessageJoin message.
+// Subscribe to wallet trades
+func (c *Client) SubscribeWalletTradesV2(ctx context.Context, payload JoinPayload) error {
+	if err := asyncapirt.Send(ctx, c.transport, payload); err != nil {
+		return ctxerrors.Wrapf(err, "send %s", MessageJoin)
+	}
+
+	return nil
+}
+
+// UnsubscribeWalletTradesV2 validates payload and sends it as a MessageLeave message.
+// Unsubscribe from wallet trades
+func (c *Client) UnsubscribeWalletTradesV2(ctx context.Context, payload LeavePayload) error {
+	if err := asyncapirt.Send(ctx, c.transport, payload); err != nil {
+		return ctxerrors.Wrapf(err, "send %s", MessageLeave)
+	}
+
+	return nil
+}
+
+// SubscribeWhaleTradesV2 validates payload and sends it as a MessageJoin message.
+// Subscribe to whale trades
+func (c *Client) SubscribeWhaleTradesV2(ctx context.Context, payload JoinPayload) error {
+	if err := asyncapirt.Send(ctx, c.transport, payload); err != nil {
+		return ctxerrors.Wrapf(err, "send %s", MessageJoin)
+	}
+
+	return nil
+}
+
+// UnsubscribeWhaleTradesV2 validates payload and sends it as a MessageLeave message.
+// Unsubscribe from whale trades
+func (c *Client) UnsubscribeWhaleTradesV2(ctx context.Context, payload LeavePayload) error {
+	if err := asyncapirt.Send(ctx, c.transport, payload); err != nil {
+		return ctxerrors.Wrapf(err, "send %s", MessageLeave)
+	}
+
+	return nil
+}
+
+// SubscribeKolTradesV2 validates payload and sends it as a MessageJoin message.
+// Subscribe to KOL trades
+func (c *Client) SubscribeKolTradesV2(ctx context.Context, payload JoinPayload) error {
+	if err := asyncapirt.Send(ctx, c.transport, payload); err != nil {
+		return ctxerrors.Wrapf(err, "send %s", MessageJoin)
+	}
+
+	return nil
+}
+
+// UnsubscribeKolTradesV2 validates payload and sends it as a MessageLeave message.
+// Unsubscribe from KOL trades
+func (c *Client) UnsubscribeKolTradesV2(ctx context.Context, payload LeavePayload) error {
+	if err := asyncapirt.Send(ctx, c.transport, payload); err != nil {
+		return ctxerrors.Wrapf(err, "send %s", MessageLeave)
 	}
 
 	return nil

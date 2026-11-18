@@ -2,6 +2,17 @@
 
 All notable changes per release. Versions follow [semver](https://semver.org).
 
+## v0.4.0, 2026-11-18
+
+- Changed `TradesResponse.NextCursor` from `*int` to `*string`. Code that reads the cursor as an integer must treat it as a string and pass it back unchanged as `cursor`.
+- Added `Timezone` to `GetChartTokenParams` and `GetChartTokenPoolParams`. Hour and longer candles start at midnight in that time zone when it is set.
+- Added a `503` response to `GetTradesTokenAddressResponse`, `GetTradesTokenAddressPoolAddressResponse`, `GetTradesTokenAddressByWalletOwnerResponse`, `GetTradesTokenAddressPoolAddressOwnerResponse` and `GetWalletOwnerTradesResponse`, with `JSON503`, `Headers503` and `GetJSON503`, plus the header types such as `GetTradesTokenAddressResponse503Headers`.
+- Added `HandleMessage(ctx, MessagePayload) error` to `ws.Handler`. Custom implementations must add it; `UnimplementedHandler` ignores the message.
+- Added the types `MessagePayload`, `JoinPayload`, `LeavePayload`, `MessageJoin`, `MessageLeave` and `MessageMessage` to `ws`.
+- Added `Subscribe` and `Unsubscribe` methods on `ws.Client` for the V2 trade rooms: `KolTradesV2`, `PoolTradesV2`, `PoolWalletTradesV2`, `TokenTradesV2`, `WalletTradesV2` and `WhaleTradesV2`, with the address templates such as `TokenTradesV2AddressTemplate`.
+- Added the V2 trade models `TradesV2Live`, `TradeV2`, `TradeV2Type`, `TradeLegV2`, `TradeTokenV2`, `TradePoolV2`, `TradeRouteV2`, `TradeFeesV2`, `TradeComputeV2` and `WalletIdentityV2`, with its identity constants.
+- Raised the minimum Go version in `go.mod` from 1.26.10 to 1.26.11, which fixes the `net/http` vulnerability GO-2026-6859 found by govulncheck. The development image uses the matching base image.
+
 ## v0.3.0, 2026-11-01
 
 - Removed the `Timezone` field from `GetChartTokenParams` and `GetChartTokenPoolParams`. `NewGetChartTokenRequest` and `NewGetChartTokenPoolRequest` no longer send the `timezone` query parameter. Callers that set `Timezone` must delete that line; the API no longer takes it in the regenerated spec.
